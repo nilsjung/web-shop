@@ -1,6 +1,7 @@
 # web-shop
 Web Application Security at the School of Applied Science in Kiel 
 
+basic idea of the simple MVC pattern is taken from: https://isitoktocode.com/post/create-a-simple-php-mvc-framework
 
 ## Technical Requirements
 * LAMPP Stack
