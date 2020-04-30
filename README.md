@@ -1,13 +1,32 @@
 # web-shop
 Web Application Security at the School of Applied Science in Kiel 
 
-basic idea of the simple MVC pattern is taken from: https://isitoktocode.com/post/create-a-simple-php-mvc-framework
+## Setup
+Install XAMPP and clone this repository to `<path-to-xampp>/htdocs/` so that the `index.php` is in htdocs like `<path-to-xampp>/htdocs/index.php`.
+
+Initialize the database by running `mysql -u root < path-to-xampp/htdocs/Application/Database/database.scheme.sql`
 
 ## Technical Requirements
 * LAMPP Stack
-  * mySQL
-  * PHP > 7.2
- 
+  * mySQL (provided by xampp)
+  * PHP > 7.2 (provided by xampp)
+
+## Architecture
+
+* The `Public` folder contains templating stuff and includes
+* The `Application` folder contains the php classes 
+* `index.php` is the entry point and routes the requests to the related controller
+
+### MVC
+
+#### Model
+#### View and Templating
+#### Controller
+
+### Routing
+
+---
+
 ## Guidlines by Krauss
 
 **Project**
