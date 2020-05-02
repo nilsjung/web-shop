@@ -2,8 +2,6 @@
 
 namespace View;
 
-use Template\Template;
-
 class IndexView extends View {
 
     public function render() {

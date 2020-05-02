@@ -26,9 +26,7 @@ $router->get('/login', function () {
 $router->get('/logout', function () {
     session_destroy();
 
-    $view = new View\IndexView(null, null);
     header("Refresh:0; url=/");
-    return $view->render();
 });
 
 $router->get('/user', function ( \Router\Request $request ) {

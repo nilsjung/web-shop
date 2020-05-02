@@ -13,7 +13,6 @@ $body = $navigation->render();
 
 require_once( 'Public/Templates/Main.inc' );
 
-
 $configuration = Configuration::instance();
 $database = Database::instance();
 
