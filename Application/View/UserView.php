@@ -6,13 +6,14 @@ use Template\Template;
 
 class UserView extends View {
 
-    public function __construct( $controller, $model ) {
+    public function __construct( $controller, \Model\User $model ) {
         parent::__construct($controller, $model);
         $template = new Template();
         $this->setTemplate($template);
     }
 
     public function render() {
+        $this->template->user = $this->model->getAllUser();
         $this->template->title = "User View";
         return $this->template->render("User.inc");
     }
