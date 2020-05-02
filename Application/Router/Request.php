@@ -7,6 +7,7 @@ class Request implements RequestInterface {
     public $serverProtocol;
     public $requestMethod;
     public $redirectQueryString;
+    public $redirectUrl;
     public $requestUri;
 
     function __construct() {
@@ -16,7 +17,7 @@ class Request implements RequestInterface {
     }
 
     public function isDefined( String $key ): bool {
-        return property_exists("/Router/Request", $key);
+        return property_exists($this, $key);
     }
 
     private function toCamelCase( String $string ) {
@@ -38,7 +39,6 @@ class Request implements RequestInterface {
         }
 
         if ( $this->requestMethod == "POST" ) {
-
             $body = array();
             foreach ( $_POST as $key => $value ) {
                 $body[ $key ] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
