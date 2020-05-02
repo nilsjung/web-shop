@@ -1,4 +1,5 @@
 <div class="container">
+    <h1><?=$this->title?></h1>
     <div class="row">
         <div class="col-6">
             <form>
@@ -20,4 +21,11 @@
             </form>
         </div>
     </div>
+    <ul>
+        <?php foreach ($this->sessionAttributes as $key => $value ) : ?>
+
+        <li><?= $key . " " . $value ?></li>
+        <? endforeach;?>
+
+    </ul>
 </div>

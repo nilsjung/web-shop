@@ -6,9 +6,7 @@ use View\IndexView;
 
 $router = new Router\Router(new Router\Request);
 
-$router->get("/", function ( \Router\Request $request ) {
-    header("Location: /login");
-});
+$router->get("/", function ( \Router\Request $request ) {});
 
 /* index route*/
 $router->get('/login', function () {
@@ -16,6 +14,8 @@ $router->get('/login', function () {
     $controller = new Controller\IndexController();
 
     $_SESSION[ "isAuthenticated" ] = true;
+
+    header("Refresh:0; url=/user");
 
     $view = new View\IndexView($controller, $model);
 

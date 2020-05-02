@@ -5,8 +5,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/user">User<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="/articles">Articles</a>
+            <?php if ($this->isAuthenticated) : ?>
+                <a class="nav-item nav-link active" href="/user">User<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/articles">Articles</a>
+                <a class="nav-item nav-link" href="/logout">Logout</a>
+            <?php else :?>
+                <a class="nav-item nav-link" href="/login">Login</a>
+            <?php endif;?>
         </div>
     </div>
     <a href="/shopping-cart" class="btn my-2 my-sm-0" type="submit">

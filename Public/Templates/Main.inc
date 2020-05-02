@@ -12,6 +12,6 @@
     <link rel="stylesheet" href="/Public/Includes/fontawesome-free-5.13.0-web/css/all.min.css" />
 </head>
 <body>
-<?php include $_SERVER[ "DOCUMENT_ROOT" ] . "/Public/Templates/Navigation.inc"; ?>
+<?=$body?>
 </body>
 </html>

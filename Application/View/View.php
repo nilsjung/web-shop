@@ -2,6 +2,8 @@
 
 namespace View;
 
+use Template\Template;
+
 abstract class View {
     protected $model;
     protected $controller;
@@ -11,6 +13,8 @@ abstract class View {
     public function __construct( $controller, $model ) {
         $this->model = $model;
         $this->controller = $controller;
+        $template = new Template();
+        $this->setTemplate($template);
     }
 
     public function setTemplate( $template ) {
