@@ -7,6 +7,7 @@ class NavigationView extends View {
     public function render() {
         if ($_SESSION && $_SESSION["isAuthenticated"]) {
             $this->template->isAuthenticated = true;
+            $this->template->userId = $_SESSION['userId'];
         } else {
             $this->template->isAuthenticated = false;
         }
