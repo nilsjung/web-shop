@@ -4,6 +4,17 @@ use Controller\UserController;
 
 $router = new Router\Router(new Router\Request);
 
+function isGiven(Array $params, Array $object) {
+
+    foreach ($params as $p) {
+        if (!array_key_exists($p, $object)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 /**
  * Route Index `/`
  * Method GET
@@ -32,6 +43,11 @@ $router->get('/login', function () {
  */
 $router->post('/login', function ( \Router\Request $request ) {
     $params = $request->getBody();
+
+    if (!isGiven(["email-address", "password"], $params)) {
+        return;
+    }
+
     $emailAddress = $params[ "email-address" ];
 
     $controller = new UserController(new \Model\User());
@@ -40,9 +56,9 @@ $router->post('/login', function ( \Router\Request $request ) {
     $password = $params[ "password" ];
 
     if ( $controller->validatePassword($password) === false ) {
-        header("Location: /login?test=" . $user->getPassword());
+        header("Location: /login");
         $_SESSION[ 'isAuthenticated' ] = false;
-        return "not authenticated";
+        return;
     }
 
     $_SESSION[ 'isAuthenticated' ] = true;
@@ -69,9 +85,7 @@ $router->get('/logout', function () {
 $router->get('/user', function ( \Router\Request $request ) {
     $controller = new UserController(new Model\User());
 
-    $params = $request->getParams();
-
-    if ( sizeof($params) === 0 ) {
+    if ( ! isGiven(['userId'], $_SESSION) ) {
         return;
     }
 

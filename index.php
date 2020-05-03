@@ -6,7 +6,7 @@ use Model\Database;
 session_start();
 
 require_once( 'autoload.php' );
-require_once( 'routes.php' );
+require_once( 'Public/routes.php' );
 
 $navigation = new \View\NavigationView(null, null);
 
