@@ -2,6 +2,6 @@
 
 namespace Controller;
 
-class ArticleController {
+class ArticleController extends Controller {
 
 }

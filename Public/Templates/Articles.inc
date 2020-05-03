@@ -1,4 +1,4 @@
-<section>
+<section class="container mt-5">
     <h1><?= $this->title ?></h1>
     <div class="row">
         <?php foreach ( $this->articles as $article ) : ?>

@@ -3,9 +3,12 @@
 namespace Controller;
 
 abstract class Controller {
-    public $model;
+    protected $model;
 
-    public function __constructor($model) {
+    /**
+     * @param $model
+     */
+    public function __constructor( $model ) {
         $this->model = $model;
     }
 }
