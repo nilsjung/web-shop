@@ -6,12 +6,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/articles">Articles</a>
+            <a class="nav-item nav-link <?php if ($this->activeRoute === "/articles") : echo "active"; endif;?> " href="/articles">Articles</a>
             <?php if ( $this->isAuthenticated ) : ?>
-                <a class="nav-item nav-link active" href="/user?userId=<?= $this->userId ?>">User<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/logout">Logout</a>
+                <a class="nav-item nav-link <?php if ($this->activeRoute === "/user") : echo "active"; endif;?>" href="/user?userId=<?= $this->userId ?>">User<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link <?php if ($this->activeRoute === "/logout") : echo "active"; endif;?>" href="/logout">Logout</a>
             <?php else : ?>
-                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link <?php if ($this->activeRoute === "/login") : echo "active"; endif;?>" href="/login">Login</a>
             <?php endif; ?>
         </div>
     </div>
