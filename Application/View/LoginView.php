@@ -2,10 +2,12 @@
 
 namespace View;
 
-class IndexView extends View {
+class LoginView extends View {
 
+    /**
+     * @return mixed
+     */
     public function render() {
-        $this->template->sessionAttributes = $_SESSION;
         return $this->template->render("Login.inc");
     }
 }
