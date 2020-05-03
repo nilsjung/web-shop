@@ -2,19 +2,29 @@
 
 namespace View;
 
-use Template\Template;
+use Model\User;
 
 class UserView extends View {
 
-    public function __construct( $controller, \Model\User $model ) {
+    /**
+     * UserView constructor.
+     *
+     * @param $controller
+     * @param User $model
+     */
+    public function __construct( $controller, User $model ) {
         parent::__construct($controller, $model);
-        $template = new Template();
-        $this->setTemplate($template);
+        $this->controller = $controller;
+        $this->model = $model;
     }
 
+    /**
+     * @return mixed
+     */
     public function render() {
-        $this->template->user = $this->model->getAllUser();
-        $this->template->title = "User View";
+        $this->template->firstName = $this->model->getFirstName();
+        $this->template->lastName = $this->model->getLastName();
+        $this->template->emailAddress = $this->model->getEmailAddress();
         return $this->template->render("User.inc");
     }
 }
