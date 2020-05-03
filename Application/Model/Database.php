@@ -1,6 +1,6 @@
 <?php
 
-namespace Database;
+namespace Model;
 
 use Configuration\Configuration;
 use PDO;
