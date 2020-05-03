@@ -17,4 +17,10 @@
             </form>
         </div>
     </div>
+    <?php if ($this->hasValidationError ) : ?>
+        <div class="alert mt-3 alert-danger">
+            <div class="strong">Validation Error</div>
+            Email/password are incorrect. Please try again.
+        </div>
+    <?php endif; ?>
 </section>
