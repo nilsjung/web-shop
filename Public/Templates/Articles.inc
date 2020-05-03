@@ -2,7 +2,7 @@
     <h1><?= $this->title ?></h1>
     <div class="row">
         <?php foreach ( $this->articles as $article ) : ?>
-            <div class="col">
+            <div class="col-4">
                 <div class="card">
                     <div class="card-body">
                         <img src="<?= $article[ "image_path" ] ?>" class="card-img-top"
