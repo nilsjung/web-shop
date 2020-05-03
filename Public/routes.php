@@ -5,17 +5,17 @@
 
 use Controller\UserController;
 
-$router = new Router\Router(new Router\Request);
+$router = new Router\Router(new Router\Request());
 
 /**
  * @param array $params
  * @param array $object
  * @return bool
  */
-function isGiven( Array $params, Array $object ) {
-
-    foreach ( $params as $p ) {
-        if ( !array_key_exists($p, $object) ) {
+function isGiven(array $params, array $object)
+{
+    foreach ($params as $p) {
+        if (!array_key_exists($p, $object)) {
             return false;
         }
     }
@@ -27,9 +27,7 @@ function isGiven( Array $params, Array $object ) {
  * Route Index `/`
  * Method GET
  */
-$router->get("/", function ( \Router\Request $request ) {
-
-});
+$router->get("/", function (\Router\Request $request) {});
 
 /**
  * Route Login `/login`
@@ -49,15 +47,15 @@ $router->get('/login', function () {
  *
  * Body email-address=<email@adress>&password=<password>
  */
-$router->post('/login', function ( \Router\Request $request ) {
+$router->post('/login', function (\Router\Request $request) {
     $params = $request->getBody();
 
-    if ( !isGiven([ "email-address", "password" ], $params) ) {
+    if (!isGiven(["email-address", "password"], $params)) {
         return;
     }
 
-    $emailAddress = $params[ "email-address" ];
-    $password = $params[ "password" ];
+    $emailAddress = $params["email-address"];
+    $password = $params["password"];
 
     $controller = new UserController(new \Model\User());
     $user = $controller->getUserByEmail($emailAddress);
@@ -68,7 +66,7 @@ $router->post('/login', function ( \Router\Request $request ) {
         return $loginView->render();
     }
 
-    if ( $controller->validatePassword($password) === false ) {
+    if ($controller->validatePassword($password) === false) {
         \Controller\SessionController::setAuthenticatedState(false);
         $loginView->validationError();
 
@@ -96,12 +94,12 @@ $router->get('/logout', function () {
  * Method GET
  *
  */
-$router->get('/user', function ( \Router\Request $request ) {
+$router->get('/user', function (\Router\Request $request) {
     $controller = new UserController(new Model\User());
 
     $id = \Controller\SessionController::getAuthenticatedUserId();
 
-    if ( $id === null ) {
+    if ($id === null) {
         return;
     }
 
@@ -112,7 +110,7 @@ $router->get('/user', function ( \Router\Request $request ) {
     return $view->render();
 });
 
-$router->get('/articles', function ( \Router\Request $request ) {
+$router->get('/articles', function (\Router\Request $request) {
     $model = new Model\Article();
     $controller = new Controller\ArticleController();
 

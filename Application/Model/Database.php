@@ -10,8 +10,8 @@ use PDO;
  *
  * @package Model
  */
-class Database {
-
+class Database
+{
     /**
      * @var null
      */
@@ -20,19 +20,27 @@ class Database {
     /**
      * Database constructor.
      */
-    private function __construct() {
+    private function __construct()
+    {
     }
 
     /**
      * @return PDO|null
      */
-    public static function instance() {
+    public static function instance()
+    {
         $configuration = Configuration::instance();
-        if ( is_null(self::$database) ) {
-            self::$database = new PDO("mysql:host=" . $configuration[ "DB_HOST" ] . ";dbname=" . $configuration[ "DB_NAME" ], $configuration[ "DB_USER" ], $configuration[ "DB_PASSWORD" ]);
+        if (is_null(self::$database)) {
+            self::$database = new PDO(
+                "mysql:host=" .
+                    $configuration["DB_HOST"] .
+                    ";dbname=" .
+                    $configuration["DB_NAME"],
+                $configuration["DB_USER"],
+                $configuration["DB_PASSWORD"]
+            );
         }
 
         return self::$database;
     }
-
 }

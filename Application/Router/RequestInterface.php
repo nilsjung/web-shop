@@ -7,7 +7,8 @@ namespace Router;
  *
  * @package Router
  */
-interface RequestInterface {
+interface RequestInterface
+{
     /**
      * @return mixed
      */
@@ -22,5 +23,5 @@ interface RequestInterface {
      * @param String $key
      * @return bool
      */
-    public function isDefined( String $key ): bool;
+    public function isDefined(string $key): bool;
 }

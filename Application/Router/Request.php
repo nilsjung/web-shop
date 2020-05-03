@@ -7,8 +7,8 @@ namespace Router;
  *
  * @package Router
  */
-class Request implements RequestInterface {
-
+class Request implements RequestInterface
+{
     public $serverProtocol;
     public $requestMethod;
     public $redirectQueryString;
@@ -18,8 +18,9 @@ class Request implements RequestInterface {
     /**
      * Request constructor.
      */
-    function __construct() {
-        foreach ( $_SERVER as $key => $value ) {
+    function __construct()
+    {
+        foreach ($_SERVER as $key => $value) {
             $this->{$this->toCamelCase($key)} = $value;
         }
     }
@@ -28,7 +29,8 @@ class Request implements RequestInterface {
      * @param String $key
      * @return bool
      */
-    public function isDefined( String $key ): bool {
+    public function isDefined(string $key): bool
+    {
         return property_exists($this, $key);
     }
 
@@ -36,12 +38,13 @@ class Request implements RequestInterface {
      * @param String $string
      * @return mixed|string
      */
-    private function toCamelCase( String $string ) {
+    private function toCamelCase(string $string)
+    {
         $result = strtolower($string);
 
         preg_match_all('/_[a-z]/', $result, $matches);
 
-        foreach ( $matches[ 0 ] as $match ) {
+        foreach ($matches[0] as $match) {
             $c = str_replace('_', '', strtoupper($match));
             $result = str_replace($match, $c, $result);
         }
@@ -52,15 +55,20 @@ class Request implements RequestInterface {
     /**
      * @return array|null
      */
-    public function getBody() {
-        if ( $this->requestMethod === "GET" ) {
+    public function getBody()
+    {
+        if ($this->requestMethod === "GET") {
             return null;
         }
 
-        if ( $this->requestMethod == "POST" ) {
-            $body = array();
-            foreach ( $_POST as $key => $value ) {
-                $body[ $key ] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($this->requestMethod == "POST") {
+            $body = [];
+            foreach ($_POST as $key => $value) {
+                $body[$key] = filter_input(
+                    INPUT_POST,
+                    $key,
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
             }
 
             return $body;
@@ -70,13 +78,14 @@ class Request implements RequestInterface {
     /**
      * @return array
      */
-    public function getParams() {
+    public function getParams()
+    {
         $params = [];
-        if ( $this->redirectQueryString ) {
+        if ($this->redirectQueryString) {
             $parameterValuePairs = explode("&", $this->redirectQueryString);
-            foreach ( $parameterValuePairs as $paramValue ) {
+            foreach ($parameterValuePairs as $paramValue) {
                 list($key, $value) = explode("=", $paramValue);
-                $params[ $key ] = $value;
+                $params[$key] = $value;
             }
         }
         return $params;

@@ -9,21 +9,24 @@ namespace Configuration;
  *
  * @package Configuration
  */
-class Configuration {
+class Configuration
+{
     private static $config = null;
 
-    private function __construct() {
+    private function __construct()
+    {
     }
 
-    public static function instance() {
-        if ( is_null(self::$config) ) {
-            self::$config = array(
+    public static function instance()
+    {
+        if (is_null(self::$config)) {
+            self::$config = [
                 "DB_HOST" => "localhost",
                 "DB_PORT" => "3306",
                 "DB_USER" => "root",
                 "DB_NAME" => "webshop",
                 "DB_PASSWORD" => "",
-            );
+            ];
         }
         return self::$config;
     }

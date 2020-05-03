@@ -7,12 +7,13 @@ namespace View;
  *
  * @package View
  */
-class LogoutView extends View {
-
+class LogoutView extends View
+{
     /**
      * @return string
      */
-    public function render() : string {
+    public function render(): string
+    {
         // TODO: Implement render() method.
     }
 }

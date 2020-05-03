@@ -7,6 +7,6 @@ namespace Controller;
  *
  * @package Controller
  */
-class IndexController extends Controller {
-
+class IndexController extends Controller
+{
 }

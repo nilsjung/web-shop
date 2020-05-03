@@ -7,8 +7,8 @@ namespace Model;
  *
  * @package Model
  */
-class User extends Model {
-
+class User extends Model
+{
     private $id;
     private $firstName;
     private $lastName;
@@ -16,48 +16,109 @@ class User extends Model {
     private $password;
 
     /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @param mixed $emailAddress
+     */
+    public function setEmailAddress($emailAddress): void
+    {
+        $this->emailAddress = $emailAddress;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
      * @return string
      */
-    public function getId(): string {
+    public function getId(): string
+    {
         return $this->id;
     }
 
     /**
      * @return string
      */
-    public function getFirstName(): string {
+    public function getFirstName(): string
+    {
         return $this->firstName;
     }
 
     /**
      * @return string
      */
-    public function getLastName(): string {
+    public function getLastName(): string
+    {
         return $this->lastName;
     }
 
     /**
      * @return string
      */
-    public function getEmailAddress(): string {
+    public function getEmailAddress(): string
+    {
         return $this->emailAddress;
     }
 
     /**
      * @return mixed
      */
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
     /**
-     * return []User
+     * updates the database entry
      */
-    public function getAllUser() {
-        $users = array();
+    public function updateUser(): void
+    {
+        $query = $this->db->prepare(
+            "UPDATE User set first_name = :first_name, last_name = :last_name, email_address = :email_address, password = :password WHERE user_id = :user_id"
+        );
+        $query->bindParam(":user_id", $this->getId(), \PDO::PARAM_STR);
+        $query->bindParam(
+            ":first_name",
+            $this->getFirstName(),
+            \PDO::PARAM_STR
+        );
+        $query->bindParam(":last_name", $this->getLastName(), \PDO::PARAM_STR);
+        $query->bindParam(
+            ":email_address",
+            $this->getEmailAddress(),
+            \PDO::PARAM_STR
+        );
+        $query->bindParam(":password", $this->getPassword(), \PDO::PARAM_STR);
+    }
+
+    /**
+     * return User[]
+     */
+    public function getAllUser(): array
+    {
+        $users = [];
         $query = $this->db->query("select * from User");
 
-        foreach ( $query->fetchAll() as $result ) {
+        foreach ($query->fetchAll() as $result) {
             $users[] = $this->resultToUser($result);
         }
 
@@ -68,12 +129,15 @@ class User extends Model {
      * @param String $emailAddress
      * @return User
      */
-    public function findByEmailAddress( string $emailAddress ): ?User {
-        $query = $this->db->prepare("select * from User where email_address = :id ");
+    public function findByEmailAddress(string $emailAddress): ?User
+    {
+        $query = $this->db->prepare(
+            "select * from User where email_address = :id "
+        );
         $query->bindParam(":id", $emailAddress, \PDO::PARAM_STR);
         $query->execute();
 
-        if ( $query->rowCount() == 0 ) {
+        if ($query->rowCount() == 0) {
             return null;
         }
 
@@ -86,12 +150,13 @@ class User extends Model {
      * @param string $id
      * @return User|null
      */
-    public function findById( string $id ): ?User {
+    public function findById(string $id): ?User
+    {
         $query = $this->db->prepare("select * from User where user_id = :id ");
         $query->bindParam(":id", $id, \PDO::PARAM_STR);
         $query->execute();
 
-        if ( $query->rowCount() == 0 ) {
+        if ($query->rowCount() == 0) {
             return null;
         }
 
@@ -104,14 +169,15 @@ class User extends Model {
      * @param array $result
      * @return User
      */
-    private function resultToUser( Array $result ): User {
+    private function resultToUser(array $result): User
+    {
         $user = new User();
 
-        $user->firstName = $result[ "first_name" ];
-        $user->lastName = $result[ "last_name" ];
-        $user->emailAddress = $result[ "email_address" ];
-        $user->password = $result[ "password" ];
-        $user->id = $result[ "user_id" ];
+        $user->firstName = $result["first_name"];
+        $user->lastName = $result["last_name"];
+        $user->emailAddress = $result["email_address"];
+        $user->password = $result["password"];
+        $user->id = $result["user_id"];
 
         return $user;
     }

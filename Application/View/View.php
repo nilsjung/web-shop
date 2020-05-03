@@ -12,8 +12,8 @@ use Template\Template;
  *
  * @package View
  */
-abstract class View {
-
+abstract class View
+{
     /**
      * @var Model
      */
@@ -35,7 +35,8 @@ abstract class View {
      * @param $controller
      * @param $model
      */
-    public function __construct( $controller, $model ) {
+    public function __construct($controller, $model)
+    {
         $this->model = $model;
         $this->controller = $controller;
         $template = new Template();
@@ -45,15 +46,17 @@ abstract class View {
     /**
      * @param $template
      */
-    private function setTemplate( $template ) : void {
+    private function setTemplate($template): void
+    {
         $this->template = $template;
     }
 
     /**
      * @param array $properties
      */
-    public function setProperties( Array $properties ) : void {
-        foreach ( $properties as $key => $value ) {
+    public function setProperties(array $properties): void
+    {
+        foreach ($properties as $key => $value) {
             $this->template->$key = $value;
         }
     }

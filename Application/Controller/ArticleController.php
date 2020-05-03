@@ -7,6 +7,6 @@ namespace Controller;
  *
  * @package Controller
  */
-class ArticleController extends Controller {
-
+class ArticleController extends Controller
+{
 }

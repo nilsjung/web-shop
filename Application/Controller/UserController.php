@@ -9,14 +9,15 @@ use Model\User;
  *
  * @package Controller
  */
-class UserController extends Controller {
-
+class UserController extends Controller
+{
     /**
      * UserController constructor.
      *
      * @param User $model
      */
-    public function __construct( User $model ) {
+    public function __construct(User $model)
+    {
         parent::__constructor($model);
     }
 
@@ -24,7 +25,8 @@ class UserController extends Controller {
      * @param String $id
      * @return User|null
      */
-    public function getUserById( String $id ): ?User {
+    public function getUserById(string $id): ?User
+    {
         $this->model = $this->model->findById($id);
         return $this->model;
     }
@@ -33,17 +35,38 @@ class UserController extends Controller {
      * @param string $email
      * @return User|null
      */
-    public function getUserByEmail( string $email ): ?User {
+    public function getUserByEmail(string $email): ?User
+    {
         $this->model = $this->model->findByEmailAddress($email);
         return $this->model;
+    }
+
+    public function updateUserById(
+        string $id,
+        string $firstName,
+        string $lastName,
+        string $emailAddress,
+        string $password
+    ): ?User {
+        $user = $this->getUserById($id);
+
+        if (is_null($user)) {
+            return null;
+        }
+
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setEmailAddress($emailAddress);
+        $user->setPassword($password);
     }
 
     /**
      * @param string $enteredPassword
      * @return bool
      */
-    public function validatePassword( string $enteredPassword ): bool {
-        if ( strcmp($this->model->getPassword(), $enteredPassword) === 0 ) {
+    public function validatePassword(string $enteredPassword): bool
+    {
+        if (strcmp($this->model->getPassword(), $enteredPassword) === 0) {
             return true;
         }
 
