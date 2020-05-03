@@ -95,19 +95,21 @@ class User extends Model
         $query = $this->db->prepare(
             "UPDATE User set first_name = :first_name, last_name = :last_name, email_address = :email_address, password = :password WHERE user_id = :user_id"
         );
-        $query->bindParam(":user_id", $this->getId(), \PDO::PARAM_STR);
-        $query->bindParam(
-            ":first_name",
-            $this->getFirstName(),
-            \PDO::PARAM_STR
-        );
-        $query->bindParam(":last_name", $this->getLastName(), \PDO::PARAM_STR);
+
+        $query->bindParam(":user_id", $this->id, \PDO::PARAM_STR);
+        $query->bindParam(":first_name", $this->firstName, \PDO::PARAM_STR);
+        $query->bindParam(":last_name", $this->lastName, \PDO::PARAM_STR);
         $query->bindParam(
             ":email_address",
-            $this->getEmailAddress(),
+            $this->emailAddress,
             \PDO::PARAM_STR
         );
-        $query->bindParam(":password", $this->getPassword(), \PDO::PARAM_STR);
+        $query->bindParam(":password", $this->password, \PDO::PARAM_STR);
+
+        if ($query->execute() === 1) {
+            echo "error during update process";
+            return;
+        }
     }
 
     /**

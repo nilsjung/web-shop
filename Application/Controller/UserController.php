@@ -41,6 +41,14 @@ class UserController extends Controller
         return $this->model;
     }
 
+    /**
+     * @param string $id
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $emailAddress
+     * @param string $password
+     * @return User|null
+     */
     public function updateUserById(
         string $id,
         string $firstName,
@@ -58,6 +66,12 @@ class UserController extends Controller
         $user->setLastName($lastName);
         $user->setEmailAddress($emailAddress);
         $user->setPassword($password);
+
+        $this->model = $user;
+
+        $this->model->updateUser();
+
+        return $user;
     }
 
     /**

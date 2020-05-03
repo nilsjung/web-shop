@@ -76,7 +76,7 @@ $router->post('/login', function (\Router\Request $request) {
     \Controller\SessionController::setAuthenticatedState(true);
     \Controller\SessionController::setAuthenticatedUserId($user->getId());
 
-    header("Location: /user?user_id=" . $user->getId());
+    header("Location: /user");
 });
 
 /**
@@ -104,6 +104,35 @@ $router->get('/user', function (\Router\Request $request) {
     }
 
     $user = $controller->getUserById($id);
+
+    $view = new View\UserView($controller, $user);
+
+    return $view->render();
+});
+
+$router->post('/user', function (\Router\Request $request) {
+    $controller = new UserController(new \Model\User());
+    $id = \Controller\SessionController::getAuthenticatedUserId();
+
+    if ($id === null) {
+        return;
+    }
+
+    $params = $request->getBody();
+
+    if (
+        !isGiven(["firstName", "lastName", "emailAddress", "password"], $params)
+    ) {
+        return;
+    }
+
+    $user = $controller->updateUserById(
+        $id,
+        $params["firstName"],
+        $params["lastName"],
+        $params["emailAddress"],
+        $params["password"]
+    );
 
     $view = new View\UserView($controller, $user);
 
