@@ -4,10 +4,10 @@ use Controller\UserController;
 
 $router = new Router\Router(new Router\Request);
 
-function isGiven(Array $params, Array $object) {
+function isGiven( Array $params, Array $object ) {
 
-    foreach ($params as $p) {
-        if (!array_key_exists($p, $object)) {
+    foreach ( $params as $p ) {
+        if ( !array_key_exists($p, $object) ) {
             return false;
         }
     }
@@ -44,7 +44,7 @@ $router->get('/login', function () {
 $router->post('/login', function ( \Router\Request $request ) {
     $params = $request->getBody();
 
-    if (!isGiven(["email-address", "password"], $params)) {
+    if ( !isGiven([ "email-address", "password" ], $params) ) {
         return;
     }
 
@@ -85,7 +85,7 @@ $router->get('/logout', function () {
 $router->get('/user', function ( \Router\Request $request ) {
     $controller = new UserController(new Model\User());
 
-    if ( ! isGiven(['userId'], $_SESSION) ) {
+    if ( !isGiven([ 'userId' ], $_SESSION) ) {
         return;
     }
 

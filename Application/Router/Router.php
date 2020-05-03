@@ -18,7 +18,7 @@ class Router {
      *
      * @param Request $request
      */
-    public function  __construct( Request $request ) {
+    public function __construct( Request $request ) {
         $this->request = $request;
     }
 
@@ -60,7 +60,7 @@ class Router {
     function resolve() {
         $methodDictionary = $this->{strtolower($this->request->requestMethod)};
 
-        if ( $this->request->isDefined('redirectUrl')  ) {
+        if ( $this->request->isDefined('redirectUrl') ) {
             $formattedRoute = $this->formatRoute($this->request->redirectUrl);
         } else {
             $formattedRoute = $this->formatRoute($this->request->requestUri);

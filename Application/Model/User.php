@@ -68,7 +68,7 @@ class User extends Model {
         $query->bindParam(":id", $emailAddress, \PDO::PARAM_STR);
         $query->execute();
 
-        if ($query->rowCount() == 0) {
+        if ( $query->rowCount() == 0 ) {
             return null;
         }
 
@@ -81,12 +81,12 @@ class User extends Model {
      * @param string $id
      * @return User|null
      */
-    public function findById( string $id) : ?User {
+    public function findById( string $id ): ?User {
         $query = $this->db->prepare("select * from User where user_id = :id ");
         $query->bindParam(":id", $id, \PDO::PARAM_STR);
         $query->execute();
 
-        if ($query->rowCount() == 0) {
+        if ( $query->rowCount() == 0 ) {
             return null;
         }
 

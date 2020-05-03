@@ -22,7 +22,7 @@ abstract class View {
     }
 
     public function setProperties( Array $properties ) {
-        foreach ($properties as $key => $value) {
+        foreach ( $properties as $key => $value ) {
             $this->template->$key = $value;
         }
     }
