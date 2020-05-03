@@ -1,4 +1,7 @@
 <?php
+/**
+ * Define the routes that handle the different user requests.
+ */
 
 use Controller\UserController;
 

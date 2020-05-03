@@ -2,6 +2,11 @@
 
 namespace Router;
 
+/**
+ * Class Request
+ *
+ * @package Router
+ */
 class Request implements RequestInterface {
 
     public $serverProtocol;
@@ -10,16 +15,27 @@ class Request implements RequestInterface {
     public $redirectUrl;
     public $requestUri;
 
+    /**
+     * Request constructor.
+     */
     function __construct() {
         foreach ( $_SERVER as $key => $value ) {
             $this->{$this->toCamelCase($key)} = $value;
         }
     }
 
+    /**
+     * @param String $key
+     * @return bool
+     */
     public function isDefined( String $key ): bool {
         return property_exists($this, $key);
     }
 
+    /**
+     * @param String $string
+     * @return mixed|string
+     */
     private function toCamelCase( String $string ) {
         $result = strtolower($string);
 
@@ -33,6 +49,9 @@ class Request implements RequestInterface {
         return $result;
     }
 
+    /**
+     * @return array|null
+     */
     public function getBody() {
         if ( $this->requestMethod === "GET" ) {
             return null;
@@ -48,6 +67,9 @@ class Request implements RequestInterface {
         }
     }
 
+    /**
+     * @return array
+     */
     public function getParams() {
         $params = [];
         if ( $this->redirectQueryString ) {

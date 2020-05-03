@@ -2,6 +2,11 @@
 
 namespace Model;
 
+/**
+ * Class Model
+ *
+ * @package Model
+ */
 abstract class Model {
     protected $db;
 

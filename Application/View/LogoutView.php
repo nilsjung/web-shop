@@ -2,9 +2,17 @@
 
 namespace View;
 
+/**
+ * Class LogoutView
+ *
+ * @package View
+ */
 class LogoutView extends View {
 
-    public function render() {
+    /**
+     * @return string
+     */
+    public function render() : string {
         // TODO: Implement render() method.
     }
 }

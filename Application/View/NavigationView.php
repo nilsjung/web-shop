@@ -4,17 +4,28 @@ namespace View;
 
 use Controller\SessionController;
 
+/**
+ * Class NavigationView
+ *
+ * @package View
+ */
 class NavigationView extends View {
 
-    public function render() {
+    /**
+     * @return string
+     */
+    public function render(): string {
+
+        /** check if the current session is authenticated */
         if ( SessionController::isAuthenticated() ) {
             $this->template->isAuthenticated = true;
         } else {
             $this->template->isAuthenticated = false;
         }
 
-        if (array_key_exists('REDIRECT_URL', $_SERVER)) {
-            $this->template->activeRoute = $_SERVER['REDIRECT_URL'];
+        /** this is used to set the `active` class for the navigation links */
+        if ( array_key_exists('REDIRECT_URL', $_SERVER) ) {
+            $this->template->activeRoute = $_SERVER[ 'REDIRECT_URL' ];
         } else {
             $this->template->activeRoute = '/';
         }

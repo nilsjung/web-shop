@@ -2,6 +2,11 @@
 
 namespace Model;
 
+/**
+ * Class User
+ *
+ * @package Model
+ */
 class User extends Model {
 
     private $id;

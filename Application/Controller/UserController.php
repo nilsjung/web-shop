@@ -4,6 +4,11 @@ namespace Controller;
 
 use Model\User;
 
+/**
+ * Class UserController
+ *
+ * @package Controller
+ */
 class UserController extends Controller {
 
     /**

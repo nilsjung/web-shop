@@ -22,6 +22,10 @@ class Router {
         $this->request = $request;
     }
 
+    /**
+     * @param $name
+     * @param $args
+     */
     public function __call( $name, $args ) {
         list($route, $method) = $args;
 
@@ -35,7 +39,7 @@ class Router {
     /**
      * Removes trailing forward slashes from the right of the route.
      *
-     * @param route (string)
+     * @param string route
      * @return string
      */
     private function formatRoute( $route ) {
@@ -46,10 +50,16 @@ class Router {
         return $result;
     }
 
+    /**
+     *
+     */
     private function invalidMethodHandler() {
         header("{$this->request->serverProtocol} 405 Method Not Allowed");
     }
 
+    /**
+     *
+     */
     private function defaultRequestHandler() {
         header("{$this->request->serverProtocol} 404 Not Found");
     }
@@ -60,11 +70,14 @@ class Router {
     function resolve() {
         $methodDictionary = $this->{strtolower($this->request->requestMethod)};
 
+        /** if arguments are passed, we want to try to get REDIRECT_URL as path */
         if ( $this->request->isDefined('redirectUrl') ) {
             $formattedRoute = $this->formatRoute($this->request->redirectUrl);
         } else {
             $formattedRoute = $this->formatRoute($this->request->requestUri);
         }
+
+        /** TODO maybe implement protected routes here to handle un-authorized access within this method */
 
         $method = $methodDictionary[ $formattedRoute ];
 
@@ -76,6 +89,9 @@ class Router {
         echo call_user_func_array($method, array( $this->request ));
     }
 
+    /**
+     *
+     */
     function __destruct() {
         $this->resolve();
     }

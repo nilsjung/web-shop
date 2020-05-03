@@ -2,8 +2,16 @@
 
 namespace View;
 
+/**
+ * Class ArticleView
+ *
+ * @package View
+ */
 class ArticleView extends View {
 
+    /**
+     * @return mixed
+     */
     public function render() {
         $this->template->articles = $this->model->getAll();
         $this->template->title = "Articles";

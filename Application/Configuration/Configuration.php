@@ -2,6 +2,13 @@
 
 namespace Configuration;
 
+/**
+ * Class Configuration
+ *
+ * A singleton to store the database settings
+ *
+ * @package Configuration
+ */
 class Configuration {
     private static $config = null;
 

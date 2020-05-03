@@ -4,6 +4,11 @@ namespace View;
 
 use Model\User;
 
+/**
+ * Class UserView
+ *
+ * @package View
+ */
 class UserView extends View {
 
     /**
@@ -19,9 +24,9 @@ class UserView extends View {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function render() {
+    public function render() : string {
         $this->template->firstName = $this->model->getFirstName();
         $this->template->lastName = $this->model->getLastName();
         $this->template->emailAddress = $this->model->getEmailAddress();
