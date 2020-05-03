@@ -18,7 +18,6 @@ class LoginView extends View
     public function __construct($controller, $model)
     {
         parent::__construct($controller, $model);
-        $this->template->hasValidationError = false;
     }
 
     /**

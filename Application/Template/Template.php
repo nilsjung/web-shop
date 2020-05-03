@@ -12,6 +12,7 @@ namespace Template;
 class Template
 {
     private $_scriptPath;
+    public $hasValidationError = false;
     public $properties;
 
     /**
