@@ -1,14 +1,18 @@
 <?php
 
 use Configuration\Configuration;
+use Controller\SessionController;
 use Model\Database;
-
-session_start();
 
 require_once( 'autoload.php' );
 require_once( 'Public/routes.php' );
 
+
+SessionController::start_session();
+
 $navigation = new \View\NavigationView(null, null);
+$sessionUser = SessionController::getAuthenticatedUserId();
+$navigation->setProperties(array("userId", $sessionUser));
 
 /** Debug Mode */
 $isDebug = false;

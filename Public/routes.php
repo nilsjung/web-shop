@@ -4,6 +4,11 @@ use Controller\UserController;
 
 $router = new Router\Router(new Router\Request);
 
+/**
+ * @param array $params
+ * @param array $object
+ * @return bool
+ */
 function isGiven( Array $params, Array $object ) {
 
     foreach ( $params as $p ) {
@@ -49,20 +54,26 @@ $router->post('/login', function ( \Router\Request $request ) {
     }
 
     $emailAddress = $params[ "email-address" ];
+    $password = $params[ "password" ];
 
     $controller = new UserController(new \Model\User());
     $user = $controller->getUserByEmail($emailAddress);
 
-    $password = $params[ "password" ];
-
-    if ( $controller->validatePassword($password) === false ) {
-        header("Location: /login");
-        $_SESSION[ 'isAuthenticated' ] = false;
-        return;
+    $loginView = new \View\LoginView($controller, null);
+    if (is_null($user)) {
+        $loginView->validationError();
+        return $loginView->render();
     }
 
-    $_SESSION[ 'isAuthenticated' ] = true;
-    $_SESSION[ "userId" ] = $user->getId();
+    if ( $controller->validatePassword($password) === false ) {
+        \Controller\SessionController::setAuthenticatedState(false);
+        $loginView->validationError();
+
+        return $loginView->render();
+    }
+
+    \Controller\SessionController::setAuthenticatedState(true);
+    \Controller\SessionController::setAuthenticatedUserId($user->getId());
 
     header("Location: /user?user_id=" . $user->getId());
 });
@@ -74,7 +85,7 @@ $router->post('/login', function ( \Router\Request $request ) {
 $router->get('/logout', function () {
     session_destroy();
 
-    header("Refresh:0; url=/");
+    header("Refresh:0; url=/login");
 });
 
 /**
@@ -85,11 +96,11 @@ $router->get('/logout', function () {
 $router->get('/user', function ( \Router\Request $request ) {
     $controller = new UserController(new Model\User());
 
-    if ( !isGiven([ 'userId' ], $_SESSION) ) {
+    $id = \Controller\SessionController::getAuthenticatedUserId();
+
+    if ( $id === null ) {
         return;
     }
-
-    $id = $_SESSION[ "userId" ];
 
     $user = $controller->getUserById($id);
 
