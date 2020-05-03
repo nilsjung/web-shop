@@ -12,10 +12,8 @@
                             card's content.
                         </p>
                         <button type="button" class="btn btn-primary">
-                            Stock
                             <i class="fas fa-cart-plus" ></i>
-                            <span class="badge badge-light"><?= "0 /" . $article['stock']?></span>
-                            <span class="sr-only">unread messages</span>
+                            <span class=""><?= "0 /" . $article['stock']?></span>
                         </button>
                     </div>
                 </div>
