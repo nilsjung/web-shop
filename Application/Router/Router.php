@@ -2,6 +2,10 @@
 
 namespace Router;
 
+/**
+ * @method post( string $string, \Closure $param )
+ * @method get( string $string, \Closure $param )
+ */
 class Router {
     private $request;
     private $supportedHttpMethods = array(
@@ -9,11 +13,16 @@ class Router {
         "POST",
     );
 
-    function __construct( RequestInterface $request ) {
+    /**
+     * Router constructor.
+     *
+     * @param Request $request
+     */
+    public function  __construct( Request $request ) {
         $this->request = $request;
     }
 
-    function __call( $name, $args ) {
+    public function __call( $name, $args ) {
         list($route, $method) = $args;
 
         if ( !in_array(strtoupper($name), $this->supportedHttpMethods) ) {
@@ -50,11 +59,13 @@ class Router {
      */
     function resolve() {
         $methodDictionary = $this->{strtolower($this->request->requestMethod)};
-        if (($this->request->isDefined('redirectUri'))) {
+
+        if ( $this->request->isDefined('redirectUrl')  ) {
             $formattedRoute = $this->formatRoute($this->request->redirectUrl);
         } else {
             $formattedRoute = $this->formatRoute($this->request->requestUri);
         }
+
         $method = $methodDictionary[ $formattedRoute ];
 
         if ( is_null($method) ) {
