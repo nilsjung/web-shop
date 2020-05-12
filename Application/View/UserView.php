@@ -2,8 +2,6 @@
 
 namespace View;
 
-use Model\User;
-
 /**
  * Class UserView
  *
@@ -15,9 +13,9 @@ class UserView extends View
      * UserView constructor.
      *
      * @param $controller
-     * @param User $model
+     * @param \Model\Domain\User $model
      */
-    public function __construct($controller, User $model)
+    public function __construct($controller, \Model\Domain\User $model)
     {
         parent::__construct($controller, $model);
         $this->controller = $controller;

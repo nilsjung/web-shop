@@ -2,8 +2,6 @@
 
 namespace Controller;
 
-use Model\User;
-
 /**
  * Class UserController
  *
@@ -16,7 +14,7 @@ class UserController extends Controller
      *
      * @param User $model
      */
-    public function __construct(User $model)
+    public function __construct(\Model\Domain\User $model)
     {
         parent::__constructor($model);
     }
@@ -25,9 +23,11 @@ class UserController extends Controller
      * @param String $id
      * @return User|null
      */
-    public function getUserById(string $id): ?User
+    public function getUserById(string $id): ?\Model\Domain\User
     {
-        $this->model = $this->model->findById($id);
+        $user = new \Model\User();
+
+        $this->model = $user->findById($id);
         return $this->model;
     }
 
@@ -35,9 +35,11 @@ class UserController extends Controller
      * @param string $email
      * @return User|null
      */
-    public function getUserByEmail(string $email): ?User
+    public function getUserByEmail(string $email): ?\Model\Domain\User
     {
-        $this->model = $this->model->findByEmailAddress($email);
+        $user = new \Model\User();
+
+        $this->model = $user->findByEmailAddress($email);
         return $this->model;
     }
 
@@ -55,23 +57,18 @@ class UserController extends Controller
         string $lastName,
         string $emailAddress,
         string $password
-    ): ?User {
-        $user = $this->getUserById($id);
+    ): ?\Model\Domain\User {
+        $user = new \Model\User();
 
-        if (is_null($user)) {
-            return null;
-        }
+        $this->model->setId($id);
+        $this->model->setFirstName($firstName);
+        $this->model->setLastName($lastName);
+        $this->model->setEmailAddress($emailAddress);
+        $this->model->setPassword($password);
 
-        $user->setFirstName($firstName);
-        $user->setLastName($lastName);
-        $user->setEmailAddress($emailAddress);
-        $user->setPassword($password);
+        $user->updateUser($this->model);
 
-        $this->model = $user;
-
-        $this->model->updateUser();
-
-        return $user;
+        return $this->model;
     }
 
     /**

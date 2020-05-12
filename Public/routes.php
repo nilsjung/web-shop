@@ -57,7 +57,7 @@ $router->post('/login', function (\Router\Request $request) {
     $emailAddress = $params["email-address"];
     $password = $params["password"];
 
-    $controller = new UserController(new \Model\User());
+    $controller = new UserController(new \Model\Domain\User());
     $user = $controller->getUserByEmail($emailAddress);
 
     $loginView = new \View\LoginView($controller, null);
@@ -95,7 +95,7 @@ $router->get('/logout', function () {
  *
  */
 $router->get('/user', function (\Router\Request $request) {
-    $controller = new UserController(new Model\User());
+    $controller = new UserController(new Model\Domain\User());
 
     $id = \Controller\SessionController::getAuthenticatedUserId();
 
@@ -111,7 +111,7 @@ $router->get('/user', function (\Router\Request $request) {
 });
 
 $router->post('/user', function (\Router\Request $request) {
-    $controller = new UserController(new \Model\User());
+    $controller = new UserController(new \Model\Domain\User());
     $id = \Controller\SessionController::getAuthenticatedUserId();
 
     if ($id === null) {

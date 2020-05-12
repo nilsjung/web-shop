@@ -10,11 +10,27 @@ namespace Model;
 class Article extends Model
 {
     /**
-     * @return array
+     * @return Domain\Article[]
      */
-    public function getAll()
+    public function getAll(): iterable
     {
         $query = $this->db->query("select * from Article");
-        return $query->fetchAll();
+
+        $articles = [];
+        foreach ($query->fetchAll() as $queryResult) {
+            $articles[] = self::mapQueryResultToArticle($queryResult);
+        }
+        return $articles;
+    }
+
+    private static function mapQueryResultToArticle($result): Domain\Article
+    {
+        return new Domain\Article(
+            $result["article_id"],
+            $result["article_name"],
+            $result["description"],
+            $result["stock"],
+            $result["image_path"]
+        );
     }
 }

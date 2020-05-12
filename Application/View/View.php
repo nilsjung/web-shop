@@ -4,7 +4,7 @@ namespace View;
 
 use Controller\Controller;
 use Controller\SessionController;
-use Model\Model;
+use Model\DomainModel;
 use Template\Template;
 
 /**
