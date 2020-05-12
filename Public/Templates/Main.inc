@@ -11,11 +11,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/Public/Icons/favicon-16x16.png">
     <link rel="manifest" href="/Public/Icons/site.webmanifest">
 
-    <script src="/Public/Includes/Lib/jquery-3.4.1.min.js"></script>
-    <script src="/Public/Includes/Lib/bootstrap.bundle.js"></script>
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="/Public/Includes/custom.js"></script>
-    <link rel="stylesheet" href="/Public/Includes/Lib/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/Public/Includes/Lib/fontawesome-free-5.13.0-web/css/all.min.css"/>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
 </head>
 <body>
 <div class="container">
