@@ -9,102 +9,27 @@ namespace Model;
  */
 class User extends Model
 {
-    private $id;
-    private $firstName;
-    private $lastName;
-    private $emailAddress;
-    private $password;
-
-    /**
-     * @param mixed $firstName
-     */
-    public function setFirstName($firstName): void
-    {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @param mixed $lastName
-     */
-    public function setLastName($lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @param mixed $emailAddress
-     */
-    public function setEmailAddress($emailAddress): void
-    {
-        $this->emailAddress = $emailAddress;
-    }
-
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password): void
-    {
-        $this->password = $password;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmailAddress(): string
-    {
-        return $this->emailAddress;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
     /**
      * updates the database entry
+     * @param Domain\User $user
      */
-    public function updateUser(): void
+    public function updateUser(\Model\Domain\User $user): void
     {
+        $firstName = $user->getFirstName();
+        $id = $user->getId();
+        $lastName = $user->getLastName();
+        $email = $user->getEmailAddress();
+        $password = $user->getPassword();
+
         $query = $this->db->prepare(
             "UPDATE User set first_name = :first_name, last_name = :last_name, email_address = :email_address, password = :password WHERE user_id = :user_id"
         );
 
-        $query->bindParam(":user_id", $this->id, \PDO::PARAM_STR);
-        $query->bindParam(":first_name", $this->firstName, \PDO::PARAM_STR);
-        $query->bindParam(":last_name", $this->lastName, \PDO::PARAM_STR);
-        $query->bindParam(
-            ":email_address",
-            $this->emailAddress,
-            \PDO::PARAM_STR
-        );
-        $query->bindParam(":password", $this->password, \PDO::PARAM_STR);
+        $query->bindParam(":user_id", $id, \PDO::PARAM_STR);
+        $query->bindParam(":first_name", $firstName, \PDO::PARAM_STR);
+        $query->bindParam(":last_name", $lastName, \PDO::PARAM_STR);
+        $query->bindParam(":email_address", $email, \PDO::PARAM_STR);
+        $query->bindParam(":password", $password, \PDO::PARAM_STR);
 
         if ($query->execute() === 1) {
             echo "error during update process";
@@ -113,15 +38,15 @@ class User extends Model
     }
 
     /**
-     * return User[]
+     * return Domain\User[]
      */
-    public function getAllUser(): array
+    public function getAllUser(): iterable
     {
-        $users = [];
         $query = $this->db->query("select * from User");
+        $users = [];
 
         foreach ($query->fetchAll() as $result) {
-            $users[] = $this->resultToUser($result);
+            $users[] = self::mapQueryResultToUser($result);
         }
 
         return $users;
@@ -131,7 +56,7 @@ class User extends Model
      * @param String $emailAddress
      * @return User
      */
-    public function findByEmailAddress(string $emailAddress): ?User
+    public function findByEmailAddress(string $emailAddress): ?Domain\User
     {
         $query = $this->db->prepare(
             "select * from User where email_address = :id "
@@ -145,14 +70,14 @@ class User extends Model
 
         $result = $query->fetch();
 
-        return $this->resultToUser($result);
+        return self::mapQueryResultToUser($result);
     }
 
     /**
      * @param string $id
      * @return User|null
      */
-    public function findById(string $id): ?User
+    public function findById(string $id): ?Domain\User
     {
         $query = $this->db->prepare("select * from User where user_id = :id ");
         $query->bindParam(":id", $id, \PDO::PARAM_STR);
@@ -164,22 +89,22 @@ class User extends Model
 
         $result = $query->fetch();
 
-        return $this->resultToUser($result);
+        return $this->mapQueryResultToUser($result);
     }
 
     /**
      * @param array $result
      * @return User
      */
-    private function resultToUser(array $result): User
+    private static function mapQueryResultToUser(array $result): Domain\User
     {
-        $user = new User();
+        $user = new Domain\User();
 
-        $user->firstName = $result["first_name"];
-        $user->lastName = $result["last_name"];
-        $user->emailAddress = $result["email_address"];
-        $user->password = $result["password"];
-        $user->id = $result["user_id"];
+        $user->setFirstName($result["first_name"]);
+        $user->setLastName($result["last_name"]);
+        $user->setEmailAddress($result["email_address"]);
+        $user->setPassword($result["password"]);
+        $user->setId($result["user_id"]);
 
         return $user;
     }
