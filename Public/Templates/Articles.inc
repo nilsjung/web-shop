@@ -5,16 +5,16 @@
             <div class="col-4">
                 <div class="card">
                     <div class="card-body">
-                        <img src="<?= $article[ "image_path" ] ?>" class="card-img-top"
-                             alt="<?= $article[ "article_name" ] ?>">
-                        <div class="h5 card-title"><?= $article[ "article_name" ] ?></div>
+                        <img src="<?= $article->getImagePath() ?>" class="card-img-top"
+                             alt="<?= $article->getName() ?>">
+                        <div class="h5 card-title"><?= $article->getName() ?></div>
                         <p class="card-text">
                             Some quick example text to build on the card title and make up the bulk of the
                             card's content.
                         </p>
                         <button type="button" class="btn btn-primary">
                             <i class="fas fa-cart-plus"></i>
-                            <span class=""><?= "0 /" . $article[ 'stock' ] ?></span>
+                            <span class=""><?= "0 /" . $article->getStock()?></span>
                         </button>
                     </div>
                 </div>
