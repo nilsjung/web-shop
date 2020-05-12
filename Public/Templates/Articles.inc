@@ -1,5 +1,5 @@
-<section class="container mt-5">
-    <h1><?= $this->title ?></h1>
+<section class="articles-container container">
+    <h1 class="mt-5 mb-5"><?= $this->title ?></h1>
     <div class="row">
         <?php foreach ( $this->articles as $article ) : ?>
             <div class="col-4">
