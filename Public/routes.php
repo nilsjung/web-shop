@@ -147,3 +147,11 @@ $router->get('/articles', function (\Router\Request $request) {
 
     return $view->render();
 });
+
+$router->get('/shopping-cart', function (\Router\Request $request) {
+    $model = new Model\ShoppingCart();
+    $controller = new Controller\ShoppingCartController();
+
+    $view = new View\ShoppingCartView($controller, $model);
+    return $view->render();
+});
