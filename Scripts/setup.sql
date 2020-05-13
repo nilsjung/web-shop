@@ -82,7 +82,7 @@ create table webshop.articles_in_cart
 (
     shopping_cart_id varchar(36),
     article_id       varchar(36),
-    count int,
+    count int not null default(1),
 
     primary key (shopping_cart_id, article_id),
     FOREIGN KEY (shopping_cart_id) references ShoppingCart (shopping_cart_id),

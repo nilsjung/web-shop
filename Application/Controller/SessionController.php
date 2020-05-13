@@ -90,7 +90,7 @@ class SessionController
             return null;
         }
 
-        $shoppingCart = \Model\Domain\ShoppingCart::withId();
+        $shoppingCart = \Model\Domain\ShoppingCart::withRandomId();
         $shoppingCart->save();
 
         $_SESSION[self::$shoppingCartKey] = $shoppingCart->getId();

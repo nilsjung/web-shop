@@ -2,8 +2,6 @@
 
 namespace View;
 
-use Controller\Controller;
-use Controller\SessionController;
 use Template\Template;
 
 /**
@@ -19,11 +17,6 @@ abstract class View
     protected $model;
 
     /**
-     * @var Controller
-     */
-    protected $controller;
-
-    /**
      * @var Template
      */
     protected $template;
@@ -34,10 +27,9 @@ abstract class View
      * @param $controller
      * @param $model
      */
-    public function __construct($controller, $model)
+    public function __construct($model)
     {
         $this->model = $model;
-        $this->controller = $controller;
         $template = new Template();
         $this->setTemplate($template);
     }

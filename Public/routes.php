@@ -3,7 +3,10 @@
  * Define the routes that handle the different user requests.
  */
 
+use Controller\ArticleController;
 use Controller\UserController;
+use Model\Article;
+use View\ArticleView;
 
 $router = new Router\Router(new Router\Request());
 
@@ -57,7 +60,7 @@ $router->post('/login', function (\Router\Request $request) {
     $emailAddress = $params["email-address"];
     $password = $params["password"];
 
-    $controller = new UserController(new \Model\Domain\User());
+    $controller = new UserController(new \Model\User());
     $user = $controller->getUserByEmail($emailAddress);
 
     $loginView = new \View\LoginView($controller, null);
@@ -95,7 +98,7 @@ $router->get('/logout', function () {
  *
  */
 $router->get('/user', function (\Router\Request $request) {
-    $controller = new UserController(new Model\Domain\User());
+    $controller = new UserController(new Model\User());
 
     $id = \Controller\SessionController::getAuthenticatedUserId();
 
@@ -105,13 +108,13 @@ $router->get('/user', function (\Router\Request $request) {
 
     $user = $controller->getUserById($id);
 
-    $view = new View\UserView($controller, $user);
+    $view = new View\UserView($user);
 
     return $view->render();
 });
 
 $router->post('/user', function (\Router\Request $request): string {
-    $controller = new UserController(new \Model\Domain\User());
+    $controller = new UserController(new \Model\User());
     $id = \Controller\SessionController::getAuthenticatedUserId();
 
     if ($id === null) {
@@ -134,18 +137,41 @@ $router->post('/user', function (\Router\Request $request): string {
         $params["password"]
     );
 
-    $view = new View\UserView($controller, $user);
+    $view = new View\UserView($user);
 
     return $view->render();
 });
 
 $router->get('/articles', function (\Router\Request $request): string {
-    $model = new Model\Article();
+    $controller = new Controller\ArticleController();
+    $controller->setModel(new Model\Article());
+    $articles = $controller->getAllArticles();
 
-    $articles = $model->getAll();
+    $view = new View\ArticleView($articles);
+
+    return $view->render();
+});
+
+$router->get("/articles/add-to-cart", function (\Router\Request $request) {
+    $params = $request->getParams();
+
+    if (!isGiven(["article_id"], $params)) {
+        return "";
+    }
+
+    $article_id = $params["article_id"];
+
     $controller = new Controller\ArticleController();
 
-    $view = new View\ArticleView($controller, $articles);
+    $article = $controller->getArticleById($article_id);
+
+    $cartController = new Controller\ShoppingCartController();
+
+    $shoppingCart = $cartController->getById(
+        \Controller\SessionController::getShoppingCartId()
+    );
+
+    $view = new View\ArticleView($article);
 
     return $view->render();
 });
@@ -157,14 +183,6 @@ $router->get('/shopping-cart', function (\Router\Request $request): string {
         \Controller\SessionController::getShoppingCartId()
     );
 
-    $view = new View\ShoppingCartView($controller, $shoppingCart);
-    return $view->render();
-});
-
-$router->post("/shopping-cart/add", function (\Router\Request $request) {
-    $shoppingCart = new Model\Domain\ShoppingCart();
-    $controller = new Controller\ShoppingCartController($shoppingCart);
-
-    $view = new View\ShoppingCartView($controller, $shoppingCart);
+    $view = new View\ShoppingCartView($shoppingCart);
     return $view->render();
 });

@@ -7,20 +7,19 @@ class ShoppingCart extends Model
     private string $id;
     private array $articles;
 
-    public function __construct()
+    public function __construct(string $id)
     {
-        $this->id = "";
+        $this->id = $id;
         $this->articles = [];
     }
 
     /**
      *
      */
-    public static function withId()
+    public static function withRandomId()
     {
-        $instance = new self();
-        $instance->id = \Model\Domain\GUID::generate();
-        return $instance;
+        $uid = \Model\Domain\GUID::generate();
+        return new self($uid);
     }
 
     /**
@@ -32,7 +31,7 @@ class ShoppingCart extends Model
     }
 
     /**
-     * @return iterable
+     * @return Article[]
      */
     public function getArticles(): iterable
     {
@@ -45,10 +44,10 @@ class ShoppingCart extends Model
      * @param Article $article
      * @return iterable
      */
-    public function addArticle(Article $article): iterable
+    public function addArticle(Article $article): ShoppingCart
     {
         $this->articles[$article->getId()] = $article;
-        return $this->articles;
+        return $this;
     }
 
     /**

@@ -14,7 +14,7 @@ class UserController extends Controller
      *
      * @param User $model
      */
-    public function __construct(\Model\Domain\User $model)
+    public function __construct(\Model\User $model)
     {
         parent::__constructor($model);
     }
@@ -25,9 +25,7 @@ class UserController extends Controller
      */
     public function getUserById(string $id): ?\Model\Domain\User
     {
-        $user = new \Model\User();
-
-        $this->model = $user->findById($id);
+        $this->model->findById($id);
         return $this->model;
     }
 
@@ -37,10 +35,7 @@ class UserController extends Controller
      */
     public function getUserByEmail(string $email): ?\Model\Domain\User
     {
-        $user = new \Model\User();
-
-        $this->model = $user->findByEmailAddress($email);
-        return $this->model;
+        return $this->model->findByEmailAddress($email);
     }
 
     /**
@@ -58,17 +53,16 @@ class UserController extends Controller
         string $emailAddress,
         string $password
     ): ?\Model\Domain\User {
-        $user = new \Model\User();
+        $user = new \Model\Domain\User();
 
-        $this->model->setId($id);
-        $this->model->setFirstName($firstName);
-        $this->model->setLastName($lastName);
-        $this->model->setEmailAddress($emailAddress);
-        $this->model->setPassword($password);
+        $user->setId($id);
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setEmailAddress($emailAddress);
+        $user->setPassword($password);
 
-        $user->updateUser($this->model);
-
-        return $this->model;
+        $this->model->updateUser($user);
+        return $user;
     }
 
     /**

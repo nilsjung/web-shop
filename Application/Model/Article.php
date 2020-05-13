@@ -23,6 +23,25 @@ class Article extends Model
         return $articles;
     }
 
+    /**
+     * @param string $id
+     * @return Domain\Article|null
+     */
+    public function getArticleById(string $id): ?\Model\Domain\Article
+    {
+        $statement = "select * from Article where article_id = :id";
+
+        $query = $this->db->prepare($statement);
+
+        $query->execute([":id" => $id]);
+        $result = $query->fetch();
+        return self::mapQueryResultToArticle($result);
+    }
+
+    /**
+     * @param $result
+     * @return Domain\Article
+     */
     private static function mapQueryResultToArticle($result): Domain\Article
     {
         return new Domain\Article(
