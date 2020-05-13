@@ -84,10 +84,10 @@ create table webshop.articles_in_cart
     article_id       varchar(36),
     count int,
 
+    primary key (shopping_cart_id, article_id),
     FOREIGN KEY (shopping_cart_id) references ShoppingCart (shopping_cart_id),
     FOREIGN KEY (article_id) references Article (article_id)
 );
 
 insert into webshop.articles_in_cart (shopping_cart_id, article_id, count)
-values ('67711d82-1c04-4edc-b0f6-050c3db818cf', '0b5e61f3-2f66-43a1-aa7a-e1c2575c90a6', 1),
-       ('67711d82-1c04-4edc-b0f6-050c3db818cf', '0b5e61f3-2f66-43a1-aa7a-e1c2575c90a6', 3);
+values ('67711d82-1c04-4edc-b0f6-050c3db818cf', '0b5e61f3-2f66-43a1-aa7a-e1c2575c90a6', 2);

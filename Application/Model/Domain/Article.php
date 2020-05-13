@@ -2,10 +2,11 @@
 
 namespace Model\Domain;
 
-class Article
+class Article extends Model
 {
     private string $id;
     private int $stock;
+    private int $in_cart;
     private string $name;
     private string $description;
     private string $imagePath;
@@ -24,6 +25,7 @@ class Article
         $this->description = $description;
         $this->stock = $stock;
         $this->imagePath = $imagePath;
+        $this->in_cart = 0;
     }
 
     /**
@@ -104,5 +106,21 @@ class Article
     public function setStock($stock): void
     {
         $this->stock = $stock;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInCart(): int
+    {
+        return $this->in_cart;
+    }
+
+    /**
+     * @param int $in_cart
+     */
+    public function setInCart(int $in_cart): void
+    {
+        $this->in_cart = $in_cart;
     }
 }

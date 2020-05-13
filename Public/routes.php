@@ -110,12 +110,12 @@ $router->get('/user', function (\Router\Request $request) {
     return $view->render();
 });
 
-$router->post('/user', function (\Router\Request $request) {
+$router->post('/user', function (\Router\Request $request): string {
     $controller = new UserController(new \Model\Domain\User());
     $id = \Controller\SessionController::getAuthenticatedUserId();
 
     if ($id === null) {
-        return;
+        return "";
     }
 
     $params = $request->getBody();
@@ -123,7 +123,7 @@ $router->post('/user', function (\Router\Request $request) {
     if (
         !isGiven(["firstName", "lastName", "emailAddress", "password"], $params)
     ) {
-        return;
+        return "";
     }
 
     $user = $controller->updateUserById(
@@ -139,19 +139,32 @@ $router->post('/user', function (\Router\Request $request) {
     return $view->render();
 });
 
-$router->get('/articles', function (\Router\Request $request) {
+$router->get('/articles', function (\Router\Request $request): string {
     $model = new Model\Article();
+
+    $articles = $model->getAll();
     $controller = new Controller\ArticleController();
 
-    $view = new View\ArticleView($controller, $model);
+    $view = new View\ArticleView($controller, $articles);
 
     return $view->render();
 });
 
-$router->get('/shopping-cart', function (\Router\Request $request) {
-    $model = new Model\ShoppingCart();
+$router->get('/shopping-cart', function (\Router\Request $request): string {
     $controller = new Controller\ShoppingCartController();
 
-    $view = new View\ShoppingCartView($controller, $model);
+    $shoppingCart = $controller->getById(
+        "67711d82-1c04-4edc-b0f6-050c3db818cf"
+    );
+
+    $view = new View\ShoppingCartView($controller, $shoppingCart);
+    return $view->render();
+});
+
+$router->post("/shopping-cart/add", function (\Router\Request $request) {
+    $shoppingCart = new Model\Domain\ShoppingCart();
+    $controller = new Controller\ShoppingCartController($shoppingCart);
+
+    $view = new View\ShoppingCartView($controller, $shoppingCart);
     return $view->render();
 });
