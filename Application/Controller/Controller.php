@@ -12,9 +12,9 @@ abstract class Controller
     protected $model;
 
     /**
-     * @param $model
+     * @param \Model\Domain\Model $model
      */
-    public function __constructor($model)
+    public function __constructor(\Model\Domain\Model $model)
     {
         $this->model = $model;
     }

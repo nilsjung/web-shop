@@ -2,7 +2,7 @@
 
 namespace Model\Domain;
 
-class User
+class User extends Model
 {
     private string $id;
     private string $firstName;

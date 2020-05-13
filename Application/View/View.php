@@ -4,7 +4,6 @@ namespace View;
 
 use Controller\Controller;
 use Controller\SessionController;
-use Model\DomainModel;
 use Template\Template;
 
 /**
@@ -15,7 +14,7 @@ use Template\Template;
 abstract class View
 {
     /**
-     * @var Model
+     * @var \Model\Domain\Model
      */
     protected $model;
 
