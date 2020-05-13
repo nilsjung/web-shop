@@ -30,6 +30,14 @@ class ShoppingCart extends Model
         return $shoppingCart;
     }
 
+    public function save(\Model\Domain\ShoppingCart $shoppingCart): void
+    {
+        $statement = "insert into ShoppingCart (shopping_cart_id) values (:id)";
+
+        $query = $this->db->prepare($statement);
+        $query->execute([":id" => $shoppingCart->getId()]);
+    }
+
     private static function mapQueryResultToArticle($result): Domain\Article
     {
         $article = new Domain\Article(

@@ -154,7 +154,7 @@ $router->get('/shopping-cart', function (\Router\Request $request): string {
     $controller = new Controller\ShoppingCartController();
 
     $shoppingCart = $controller->getById(
-        "67711d82-1c04-4edc-b0f6-050c3db818cf"
+        \Controller\SessionController::getShoppingCartId()
     );
 
     $view = new View\ShoppingCartView($controller, $shoppingCart);

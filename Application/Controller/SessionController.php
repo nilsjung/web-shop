@@ -18,12 +18,15 @@ class SessionController
      */
     private static $authenticatedUserId = "user_id";
 
+    private static $shoppingCartKey = "shopping_cart_id";
+
     /**
      *
      */
     public static function start_session()
     {
         session_start();
+        self::createShoppingCart();
     }
 
     /**
@@ -64,5 +67,34 @@ class SessionController
         }
 
         return null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public static function getShoppingCartId(): ?string
+    {
+        if (array_key_exists(self::$shoppingCartKey, $_SESSION)) {
+            return $_SESSION[self::$shoppingCartKey];
+        }
+
+        return null;
+    }
+
+    /**
+     * @return \Model\Domain\ShoppingCart|null
+     */
+    public static function createShoppingCart(): ?\Model\Domain\ShoppingCart
+    {
+        if (array_key_exists(self::$shoppingCartKey, $_SESSION)) {
+            return null;
+        }
+
+        $shoppingCart = \Model\Domain\ShoppingCart::withId();
+        $shoppingCart->save();
+
+        $_SESSION[self::$shoppingCartKey] = $shoppingCart->getId();
+
+        return $shoppingCart;
     }
 }

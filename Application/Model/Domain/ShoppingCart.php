@@ -14,6 +14,24 @@ class ShoppingCart extends Model
     }
 
     /**
+     *
+     */
+    public static function withId()
+    {
+        $instance = new self();
+        $instance->id = \Model\Domain\GUID::generate();
+        return $instance;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
      * @return iterable
      */
     public function getArticles(): iterable
@@ -44,5 +62,12 @@ class ShoppingCart extends Model
         if (in_array($article_id, $this->articles)) {
             array_splice($this->articles, $article_id, 1);
         }
+    }
+
+    public function save()
+    {
+        $model = new \Model\ShoppingCart();
+
+        $model->save($this);
     }
 }
