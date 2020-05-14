@@ -39,7 +39,7 @@ class ShoppingCart extends Model
         return $shoppingCart;
     }
 
-    public function addArticleToShoppingCart(
+    public function addArticle(
         string $shoppingCartId,
         string $articleId
     ): \Model\Domain\ShoppingCart {
@@ -54,6 +54,8 @@ class ShoppingCart extends Model
         } catch (\PDOException $exception) {
             echo $exception->getMessage();
         }
+
+        return $this->getById($shoppingCartId);
     }
 
     /**

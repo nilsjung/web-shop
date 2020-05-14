@@ -24,11 +24,9 @@ class ShoppingCartController extends Controller
      */
     public function addArticle(
         string $shoppingCartId,
-        string $article
+        string $articleId
     ): \Model\Domain\ShoppingCart {
-        $this->model->addArticle($article);
-        $this->model->update($this->model);
-        return $this->model;
+        return $this->model->addArticle($shoppingCartId, $articleId);
     }
 
     public function insertShoppingCart(string $id)

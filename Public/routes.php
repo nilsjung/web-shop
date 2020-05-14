@@ -163,6 +163,7 @@ $router->get("/articles/add-to-cart", function (\Router\Request $request) {
     $shoppingCartId = \Controller\SessionController::getShoppingCartId();
 
     $cartController = new Controller\ShoppingCartController();
+    $cartController->setModel(new \Model\ShoppingCart());
 
     $cartController->addArticle($shoppingCartId, $article_id);
 });
