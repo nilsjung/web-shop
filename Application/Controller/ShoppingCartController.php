@@ -2,8 +2,6 @@
 
 namespace Controller;
 
-use Model\ShoppingCart;
-
 /**
  * Class ArticleController
  *
@@ -17,20 +15,24 @@ class ShoppingCartController extends Controller
      */
     public function getById(string $id)
     {
-        $data = new \Model\ShoppingCart();
-        $this->model = $data->getById($id);
-        return $this->model;
+        return $this->model->getById($id);
     }
 
     /**
-     * @param \Model\Domain\Article $article
-     * @return \Model\Domain\ShoppingCart
+     * @param string $shoppingCartId
+     * @param $string
      */
     public function addArticle(
-        \Model\Domain\Article $article
+        string $shoppingCartId,
+        string $article
     ): \Model\Domain\ShoppingCart {
         $this->model->addArticle($article);
         $this->model->update($this->model);
         return $this->model;
+    }
+
+    public function insertShoppingCart(string $id)
+    {
+        return $this->model->save($id);
     }
 }

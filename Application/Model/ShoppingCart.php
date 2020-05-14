@@ -39,43 +39,36 @@ class ShoppingCart extends Model
         return $shoppingCart;
     }
 
-    /**
-     * @param Domain\ShoppingCart $shoppingCart
-     */
-    public function save(\Model\Domain\ShoppingCart $shoppingCart): void
-    {
-        $statement = "insert into ShoppingCart (shopping_cart_id) values (:id)";
-
+    public function addArticleToShoppingCart(
+        string $shoppingCartId,
+        string $articleId
+    ): \Model\Domain\ShoppingCart {
+        $statement =
+            "insert into articles_in_cart (shopping_cart_id, article_id) values (:shoppingCartId, :articleId)";
         $query = $this->db->prepare($statement);
-
         try {
-            $query->execute([":id" => $shoppingCart->getId()]);
-        } catch (\PDOException $e) {
-            echo $e->getMessage();
+            $query->execute([
+                ":shoppingCartId" => $shoppingCartId,
+                ":articleId" => $articleId,
+            ]);
+        } catch (\PDOException $exception) {
+            echo $exception->getMessage();
         }
     }
 
     /**
      * @param Domain\ShoppingCart $shoppingCart
      */
-    public function update(\Model\Domain\ShoppingCart $shoppingCart): void
+    public function save(string $id): void
     {
-        $articles = $shoppingCart->getArticles();
-        $shoppingCartId = $shoppingCart->getId();
+        $statement = "insert into ShoppingCart (shopping_cart_id) values (:id)";
 
-        $statement =
-            "insert into articles_in_cart (shopping_cart_id, article_id) values (:shopping_cart_id, :article_id, :count);";
+        $query = $this->db->prepare($statement);
 
-        foreach ($articles as $article) {
-            $query = $this->db->prepare($statement);
-            $query->bindValue(":shopping_cart_id", $shoppingCartId);
-            $query->bindValue(":article_id", $article->getId());
-            $query->bindValue(":count", $article->getInCart());
-            try {
-                $query->execute();
-            } catch (\PDOException $e) {
-                $error = $e->getMessage();
-            }
+        try {
+            $query->execute([":id" => $id]);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
         }
     }
 

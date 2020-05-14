@@ -14,15 +14,6 @@ class ShoppingCart extends Model
     }
 
     /**
-     *
-     */
-    public static function withRandomId()
-    {
-        $uid = \Model\Domain\GUID::generate();
-        return new self($uid);
-    }
-
-    /**
      * @return string
      */
     public function getId(): string
@@ -61,12 +52,5 @@ class ShoppingCart extends Model
         if (in_array($article_id, $this->articles)) {
             array_splice($this->articles, $article_id, 1);
         }
-    }
-
-    public function save()
-    {
-        $model = new \Model\ShoppingCart();
-
-        $model->save($this);
     }
 }

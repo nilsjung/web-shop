@@ -89,11 +89,16 @@ class SessionController
         if (array_key_exists(self::$shoppingCartKey, $_SESSION)) {
             return null;
         }
+        $data = new \Model\ShoppingCart();
+        $shoppingCartController = new ShoppingCartController();
+        $shoppingCartController->setModel($data);
+        $id = \Model\Domain\GUID::generate();
 
-        $shoppingCart = \Model\Domain\ShoppingCart::withRandomId();
-        $shoppingCart->save();
+        $shoppingCart = new \Model\Domain\ShoppingCart($id);
 
-        $_SESSION[self::$shoppingCartKey] = $shoppingCart->getId();
+        $shoppingCartController->insertShoppingCart($id);
+
+        $_SESSION[self::$shoppingCartKey] = $id;
 
         return $shoppingCart;
     }

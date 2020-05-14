@@ -54,7 +54,7 @@ $router->post('/login', function (\Router\Request $request) {
     $params = $request->getBody();
 
     if (!isGiven(["email-address", "password"], $params)) {
-        return;
+        return "";
     }
 
     $emailAddress = $params["email-address"];
@@ -69,7 +69,7 @@ $router->post('/login', function (\Router\Request $request) {
         return $loginView->render();
     }
 
-    if ($controller->validatePassword($password) === false) {
+    if ($controller->validatePassword($password, $user) === false) {
         \Controller\SessionController::setAuthenticatedState(false);
         $loginView->validationError();
 
@@ -103,7 +103,7 @@ $router->get('/user', function (\Router\Request $request) {
     $id = \Controller\SessionController::getAuthenticatedUserId();
 
     if ($id === null) {
-        return;
+        return "";
     }
 
     $user = $controller->getUserById($id);
@@ -160,24 +160,16 @@ $router->get("/articles/add-to-cart", function (\Router\Request $request) {
     }
 
     $article_id = $params["article_id"];
-
-    $controller = new Controller\ArticleController();
-
-    $article = $controller->getArticleById($article_id);
+    $shoppingCartId = \Controller\SessionController::getShoppingCartId();
 
     $cartController = new Controller\ShoppingCartController();
 
-    $shoppingCart = $cartController->getById(
-        \Controller\SessionController::getShoppingCartId()
-    );
-
-    $view = new View\ArticleView($article);
-
-    return $view->render();
+    $cartController->addArticle($shoppingCartId, $article_id);
 });
 
 $router->get('/shopping-cart', function (\Router\Request $request): string {
     $controller = new Controller\ShoppingCartController();
+    $controller->setModel(new \Model\ShoppingCart());
 
     $shoppingCart = $controller->getById(
         \Controller\SessionController::getShoppingCartId()

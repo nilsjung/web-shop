@@ -25,8 +25,7 @@ class UserController extends Controller
      */
     public function getUserById(string $id): ?\Model\Domain\User
     {
-        $this->model->findById($id);
-        return $this->model;
+        return $this->model->findById($id);
     }
 
     /**
@@ -61,17 +60,18 @@ class UserController extends Controller
         $user->setEmailAddress($emailAddress);
         $user->setPassword($password);
 
-        $this->model->updateUser($user);
-        return $user;
+        return $this->model->updateUser($user);
     }
 
     /**
      * @param string $enteredPassword
      * @return bool
      */
-    public function validatePassword(string $enteredPassword): bool
-    {
-        if (strcmp($this->model->getPassword(), $enteredPassword) === 0) {
+    public function validatePassword(
+        string $enteredPassword,
+        \Model\DOmain\User $user
+    ): bool {
+        if (strcmp($user->getPassword(), $enteredPassword) === 0) {
             return true;
         }
 

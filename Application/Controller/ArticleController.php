@@ -23,9 +23,6 @@ class ArticleController extends Controller
      */
     public function getArticleById(string $article_id): \Model\Domain\Article
     {
-        $data = new \Model\Article();
-        $article = $data->getArticleById($article_id);
-        $this->model = $article;
-        return $article;
+        return $this->model->getArticleById($article_id);
     }
 }
