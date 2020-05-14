@@ -35,7 +35,6 @@ class Template
     /**
      * @param $filename
      * @return false|string
-     * @throws TemplateNotFoundException
      */
     public function render($filename)
     {

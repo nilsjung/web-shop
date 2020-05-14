@@ -13,7 +13,7 @@ class User extends Model
      * updates the database entry
      * @param Domain\User $user
      */
-    public function updateUser(\Model\Domain\User $user): void
+    public function updateUser(\Model\Domain\User $user): ?Domain\User
     {
         $firstName = $user->getFirstName();
         $id = $user->getId();
@@ -33,8 +33,10 @@ class User extends Model
 
         if ($query->execute() === 1) {
             echo "error during update process";
-            return;
+            return null;
         }
+
+        return $user;
     }
 
     /**
