@@ -13,7 +13,7 @@ use Controller\SessionController;
 use Model\Database;
 
 require_once 'autoload.php';
-require_once 'Public/routes.php';
+require_once 'routes.php';
 
 SessionController::start_session();
 

@@ -164,8 +164,15 @@ $router->get("/articles/add-to-cart", function (\Router\Request $request) {
 
     $cartController = new Controller\ShoppingCartController();
     $cartController->setModel(new \Model\ShoppingCart());
-
     $cartController->addArticle($shoppingCartId, $article_id);
+
+    $controller = new Controller\ArticleController();
+    $controller->setModel(new Model\Article());
+    $articles = $controller->getAllArticles();
+
+    $view = new View\ArticleView($articles);
+
+    return $view->render();
 });
 
 $router->get('/shopping-cart', function (\Router\Request $request): string {
