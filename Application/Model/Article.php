@@ -16,12 +16,20 @@ class Article extends Model
      */
     public function getAll(): QueryResult
     {
-        // TODO SQL: get all articles but count just them from the current shopping cart.
         $statement = "
-        select a.article_id, article_name, IFNULL(aic.count,0) as count, stock, description, image_path
+        select aic.shopping_cart_id,
+            a.article_id,
+            article_name,
+            IFNULL(aic.count, 0) as count,
+            stock,
+            description,
+            image_path
         from Article as a
-        left outer JOIN  articles_in_cart aic on a.article_id = aic.article_id;
-        ";
+            left outer JOIN (
+                select * from articles_in_cart where shopping_cart_id = :shoppingCartId
+            ) as aic
+        on a.article_id = aic.article_id
+";
 
         $query = $this->db->prepare($statement);
         try {
