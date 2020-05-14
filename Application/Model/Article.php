@@ -16,6 +16,7 @@ class Article extends Model
      */
     public function getAll(): iterable
     {
+        // TODO SQL: get all articles but count just them from the current shopping cart.
         $statement = "
         select a.article_id, article_name, IFNULL(aic.count,0) as count, stock, description, image_path
         from Article as a
