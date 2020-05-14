@@ -2,8 +2,6 @@
 
 namespace Controller;
 
-use MongoDB\Driver\Query;
-
 /**
  * Class SessionController
  *

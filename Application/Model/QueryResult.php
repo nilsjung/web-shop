@@ -7,6 +7,12 @@ class QueryResult
     private ?string $error;
     private ?array $result;
 
+    /**
+     * QueryResult constructor.
+     * @param array|null $result
+     * @param string|null $error
+     * @param int $statusCode
+     */
     public function __construct(
         ?array $result,
         ?string $error,
@@ -17,6 +23,9 @@ class QueryResult
         header($statusCode);
     }
 
+    /**
+     * @return array|mixed|null
+     */
     public function getResult()
     {
         if (count($this->result) === 1) {
@@ -26,6 +35,9 @@ class QueryResult
         return $this->result;
     }
 
+    /**
+     * @return bool
+     */
     public function hasError(): bool
     {
         if (is_null($this->error)) {
@@ -35,6 +47,9 @@ class QueryResult
         return true;
     }
 
+    /**
+     * @return string
+     */
     public function getErrorMessage(): string
     {
         return $this->error != null ? $this->error : '';

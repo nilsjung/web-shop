@@ -2,6 +2,6 @@
 
 namespace Model\Domain;
 
-class Model
+abstract class Model
 {
 }

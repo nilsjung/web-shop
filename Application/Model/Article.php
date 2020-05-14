@@ -3,8 +3,6 @@
 namespace Model;
 
 use Controller\SessionController;
-use MongoDB\Driver\Query;
-use mysql_xdevapi\Exception;
 
 /**
  * Class Article
@@ -14,7 +12,7 @@ use mysql_xdevapi\Exception;
 class Article extends Model
 {
     /**
-     * @return Domain\Article[]
+     * @return QueryResult
      */
     public function getAll(): QueryResult
     {
@@ -45,7 +43,7 @@ class Article extends Model
 
     /**
      * @param string $id
-     * @return Domain\Article|null
+     * @return QueryResult
      */
     public function getArticleById(string $id): QueryResult
     {

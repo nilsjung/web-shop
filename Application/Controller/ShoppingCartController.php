@@ -13,7 +13,7 @@ class ShoppingCartController extends Controller
 {
     /**
      * @param string $id
-     * @return \Model\Domain\ShoppingCart|null
+     * @return \Model\QueryResult
      */
     public function getById(string $id): \Model\QueryResult
     {

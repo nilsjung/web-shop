@@ -40,13 +40,21 @@ class ShoppingCart extends Model
         }
     }
 
+    /**
+     * @param string $shoppingCartId
+     * @param string $articleId
+     * @return QueryResult
+     */
     public function addArticle(
         string $shoppingCartId,
         string $articleId
     ): QueryResult {
-        $statement =
-            "insert into articles_in_cart (shopping_cart_id, article_id) values (:shoppingCartId, :articleId)";
+        $statement = "
+            insert into articles_in_cart (shopping_cart_id, article_id) 
+            values (:shoppingCartId, :articleId)";
+
         $query = $this->db->prepare($statement);
+
         try {
             $query->execute([
                 ":shoppingCartId" => $shoppingCartId,
@@ -59,7 +67,7 @@ class ShoppingCart extends Model
     }
 
     /**
-     * @param Domain\ShoppingCart $shoppingCart
+     * @param string $id
      */
     public function save(string $id): void
     {
@@ -74,6 +82,10 @@ class ShoppingCart extends Model
         }
     }
 
+    /**
+     * @param $result
+     * @return Domain\Article
+     */
     private static function mapQueryResultToArticle($result): Domain\Article
     {
         $article = new Domain\Article(

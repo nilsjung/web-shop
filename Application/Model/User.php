@@ -23,9 +23,12 @@ class User extends Model
         $email = $user->getEmailAddress();
         $password = $user->getPassword();
 
-        $query = $this->db->prepare(
-            "UPDATE User set first_name = :first_name, last_name = :last_name, email_address = :email_address, password = :password WHERE user_id = :user_id"
-        );
+        $statement = "
+        UPDATE User 
+        set first_name = :first_name, last_name = :last_name, email_address = :email_address, password = :password 
+        WHERE user_id = :user_id";
+
+        $query = $this->db->prepare($statement);
 
         $query->bindParam(":user_id", $id, \PDO::PARAM_STR);
         $query->bindParam(":first_name", $firstName, \PDO::PARAM_STR);
