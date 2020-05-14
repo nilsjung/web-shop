@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Model\QueryResult;
+
 /**
  * Class UserController
  *
@@ -21,18 +23,18 @@ class UserController extends Controller
 
     /**
      * @param String $id
-     * @return User|null
+     * @return QueryResult
      */
-    public function getUserById(string $id): ?\Model\Domain\User
+    public function getUserById(string $id): QueryResult
     {
         return $this->model->findById($id);
     }
 
     /**
      * @param string $email
-     * @return User|null
+     * @return QueryResult
      */
-    public function getUserByEmail(string $email): ?\Model\Domain\User
+    public function getUserByEmail(string $email): QueryResult
     {
         return $this->model->findByEmailAddress($email);
     }
@@ -43,7 +45,7 @@ class UserController extends Controller
      * @param string $lastName
      * @param string $emailAddress
      * @param string $password
-     * @return User|null
+     * @return QueryResult
      */
     public function updateUserById(
         string $id,
@@ -51,7 +53,7 @@ class UserController extends Controller
         string $lastName,
         string $emailAddress,
         string $password
-    ): ?\Model\Domain\User {
+    ): QueryResult {
         $user = new \Model\Domain\User();
 
         $user->setId($id);
@@ -65,11 +67,12 @@ class UserController extends Controller
 
     /**
      * @param string $enteredPassword
+     * @param \Model\Domain\User $user
      * @return bool
      */
     public function validatePassword(
         string $enteredPassword,
-        \Model\DOmain\User $user
+        \Model\Domain\User $user
     ): bool {
         if (strcmp($user->getPassword(), $enteredPassword) === 0) {
             return true;

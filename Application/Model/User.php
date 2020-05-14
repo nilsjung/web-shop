@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use MongoDB\Driver\Query;
+
 /**
  * Class User
  *
@@ -13,7 +15,7 @@ class User extends Model
      * updates the database entry
      * @param Domain\User $user
      */
-    public function updateUser(\Model\Domain\User $user): ?Domain\User
+    public function updateUser(\Model\Domain\User $user): QueryResult
     {
         $firstName = $user->getFirstName();
         $id = $user->getId();
@@ -33,16 +35,16 @@ class User extends Model
 
         if ($query->execute() === 1) {
             echo "error during update process";
-            return null;
+            return new QueryResult(null, 'Error while updating', 500);
         }
 
-        return $user;
+        return new QueryResult([$user], null);
     }
 
     /**
      * return Domain\User[]
      */
-    public function getAllUser(): iterable
+    public function getAllUser(): QueryResult
     {
         $query = $this->db->query("select * from User");
         $users = [];
@@ -51,14 +53,14 @@ class User extends Model
             $users[] = self::mapQueryResultToUser($result);
         }
 
-        return $users;
+        return new QueryResult($users, null);
     }
 
     /**
      * @param String $emailAddress
      * @return User
      */
-    public function findByEmailAddress(string $emailAddress): ?Domain\User
+    public function findByEmailAddress(string $emailAddress): QueryResult
     {
         $query = $this->db->prepare(
             "select * from User where email_address = :id "
@@ -67,31 +69,31 @@ class User extends Model
         $query->execute();
 
         if ($query->rowCount() == 0) {
-            return null;
+            return new QueryResult(null, "Login Error");
         }
 
-        $result = $query->fetch();
+        $result = self::mapQueryResultToUser($query->fetch());
 
-        return self::mapQueryResultToUser($result);
+        return new QueryResult([$result], null);
     }
 
     /**
      * @param string $id
      * @return User|null
      */
-    public function findById(string $id): ?Domain\User
+    public function findById(string $id): QueryResult
     {
         $query = $this->db->prepare("select * from User where user_id = :id ");
         $query->bindParam(":id", $id, \PDO::PARAM_STR);
         $query->execute();
 
         if ($query->rowCount() == 0) {
-            return null;
+            return new QueryResult(null, 'No user found');
         }
 
-        $result = $query->fetch();
+        $result = $this->mapQueryResultToUser($query->fetch());
 
-        return $this->mapQueryResultToUser($result);
+        return new QueryResult([$result], null);
     }
 
     /**

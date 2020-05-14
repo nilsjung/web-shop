@@ -2,6 +2,7 @@
 
 namespace View;
 
+use Model\QueryResult;
 use Template\Template;
 
 /**
@@ -12,7 +13,7 @@ use Template\Template;
 abstract class View
 {
     /**
-     * @var \Model\Domain\Model
+     * @var QueryResult
      */
     protected $model;
 
@@ -24,12 +25,11 @@ abstract class View
     /**
      * View constructor.
      *
-     * @param $controller
-     * @param $model
+     * @param QueryResult $queryResult
      */
-    public function __construct($model)
+    public function __construct(QueryResult $queryResult)
     {
-        $this->model = $model;
+        $this->model = $queryResult;
         $template = new Template();
         $this->setTemplate($template);
     }

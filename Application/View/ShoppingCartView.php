@@ -14,7 +14,7 @@ class ShoppingCartView extends View
      */
     public function render(): string
     {
-        $this->template->articles = $this->model->getArticles();
+        $this->template->articles = $this->model->getResult()->getArticles();
         return $this->template->render("ShoppingCart.inc");
     }
 }

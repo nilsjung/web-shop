@@ -20,9 +20,18 @@ Initialize the database by running `mysql -u root < path-to-xampp/htdocs/Applica
 ### MVC
 
 #### Model
-#### View and Templating
-#### Controller
+There is the `\Model\Domain` that contains the real-world model. 
+It is returned by the \Model Classes and the Model that is used to render the application.
 
+The `\Model` contains the database and is created to handle the database queries. 
+It is directly accessed by the `\Controller` and returns the related `\Model\Domain` Class.
+
+#### View and Templating
+The view class represents the `\Model\Domain`.
+
+#### Controller
+The `\Controller` handles the request coming from the browser and coordinates the combination of `\Model` and `\Model\Domain`.
+It requests the stored data by accessing the `\Model` and forwards the returned `\Model\Domain` to the view component.
 ### Routing
 
 ---

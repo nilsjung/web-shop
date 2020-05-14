@@ -18,7 +18,7 @@ require_once 'routes.php';
 SessionController::start_session();
 
 // create and render the navigation bar.
-$navigation = new \View\NavigationView(null, null);
+$navigation = new \View\NavigationView(new \Model\QueryResult(null, null));
 $sessionUser = SessionController::getAuthenticatedUserId();
 $navigation->setProperties(["userId", $sessionUser]);
 $body["navigation"] = $navigation->render();

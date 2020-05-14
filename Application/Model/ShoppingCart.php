@@ -13,7 +13,7 @@ class ShoppingCart extends Model
      * @param string $id
      * @return Domain\ShoppingCart|null
      */
-    public function getById(string $id): ?Domain\ShoppingCart
+    public function getById(string $id): QueryResult
     {
         $statement = "
     select a.article_id, article_name, aic.count, stock, description, image_path
@@ -24,25 +24,26 @@ class ShoppingCart extends Model
 
         try {
             $query->execute([":id" => $id]);
+            $result = $query->fetchAll();
+
+            $shoppingCart = new Domain\ShoppingCart($id);
+
+            foreach ($result as $values) {
+                $shoppingCart->addArticle(
+                    self::mapQueryResultToArticle($values)
+                );
+            }
+
+            return new QueryResult([$shoppingCart], null);
         } catch (\PDOException $exception) {
-            echo $exception->getMessage();
+            return new QueryResult(null, "internal error", 500);
         }
-
-        $result = $query->fetchAll();
-
-        $shoppingCart = new Domain\ShoppingCart($id);
-
-        foreach ($result as $values) {
-            $shoppingCart->addArticle(self::mapQueryResultToArticle($values));
-        }
-
-        return $shoppingCart;
     }
 
     public function addArticle(
         string $shoppingCartId,
         string $articleId
-    ): \Model\Domain\ShoppingCart {
+    ): QueryResult {
         $statement =
             "insert into articles_in_cart (shopping_cart_id, article_id) values (:shoppingCartId, :articleId)";
         $query = $this->db->prepare($statement);
@@ -51,11 +52,10 @@ class ShoppingCart extends Model
                 ":shoppingCartId" => $shoppingCartId,
                 ":articleId" => $articleId,
             ]);
+            return $this->getById($shoppingCartId);
         } catch (\PDOException $exception) {
-            echo $exception->getMessage();
+            return new QueryResult(null, 'Internal Error');
         }
-
-        return $this->getById($shoppingCartId);
     }
 
     /**

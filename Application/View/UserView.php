@@ -14,10 +14,12 @@ class UserView extends View
      */
     public function render(): string
     {
-        $this->template->firstName = $this->model->getFirstName();
-        $this->template->lastName = $this->model->getLastName();
-        $this->template->emailAddress = $this->model->getEmailAddress();
-        $this->template->password = $this->model->getPassword();
+        $this->template->firstName = $this->model->getResult()->getFirstName();
+        $this->template->lastName = $this->model->getResult()->getLastName();
+        $this->template->emailAddress = $this->model
+            ->getResult()
+            ->getEmailAddress();
+        $this->template->password = $this->model->getResult()->getPassword();
 
         return $this->template->render("User.inc");
     }

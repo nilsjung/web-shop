@@ -12,7 +12,7 @@ class ArticleController extends Controller
     /**
      *
      */
-    public function getAllArticles(): iterable
+    public function getAllArticles(): \Model\QueryResult
     {
         return $this->model->getAll();
     }
@@ -21,7 +21,7 @@ class ArticleController extends Controller
      * @param string $article_id
      * @return \Model\Domain\Article
      */
-    public function getArticleById(string $article_id): \Model\Domain\Article
+    public function getArticleById(string $article_id): \Model\QueryResult
     {
         return $this->model->getArticleById($article_id);
     }

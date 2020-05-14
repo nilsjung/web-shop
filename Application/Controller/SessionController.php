@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use MongoDB\Driver\Query;
+
 /**
  * Class SessionController
  *
@@ -84,14 +86,15 @@ class SessionController
     /**
      * @return \Model\Domain\ShoppingCart|null
      */
-    public static function createShoppingCart(): ?\Model\Domain\ShoppingCart
+    public static function createShoppingCart(): \Model\QueryResult
     {
         if (array_key_exists(self::$shoppingCartKey, $_SESSION)) {
-            return null;
+            return new \Model\QueryResult(null, null);
         }
         $data = new \Model\ShoppingCart();
         $shoppingCartController = new ShoppingCartController();
         $shoppingCartController->setModel($data);
+
         $id = \Model\Domain\GUID::generate();
 
         $shoppingCart = new \Model\Domain\ShoppingCart($id);
@@ -100,6 +103,6 @@ class SessionController
 
         $_SESSION[self::$shoppingCartKey] = $id;
 
-        return $shoppingCart;
+        return new \Model\QueryResult([$shoppingCart], null);
     }
 }

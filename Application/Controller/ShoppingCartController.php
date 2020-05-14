@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use MongoDB\Driver\Query;
+
 /**
  * Class ArticleController
  *
@@ -13,7 +15,7 @@ class ShoppingCartController extends Controller
      * @param string $id
      * @return \Model\Domain\ShoppingCart|null
      */
-    public function getById(string $id)
+    public function getById(string $id): \Model\QueryResult
     {
         return $this->model->getById($id);
     }
@@ -21,11 +23,12 @@ class ShoppingCartController extends Controller
     /**
      * @param string $shoppingCartId
      * @param $string
+     * @return \Model\QueryResult
      */
     public function addArticle(
         string $shoppingCartId,
         string $articleId
-    ): \Model\Domain\ShoppingCart {
+    ): \Model\QueryResult {
         return $this->model->addArticle($shoppingCartId, $articleId);
     }
 

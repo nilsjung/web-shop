@@ -3,6 +3,8 @@
 namespace Model;
 
 use Controller\SessionController;
+use MongoDB\Driver\Query;
+use mysql_xdevapi\Exception;
 
 /**
  * Class Article
@@ -14,7 +16,7 @@ class Article extends Model
     /**
      * @return Domain\Article[]
      */
-    public function getAll(): iterable
+    public function getAll(): QueryResult
     {
         // TODO SQL: get all articles but count just them from the current shopping cart.
         $statement = "
@@ -24,30 +26,41 @@ class Article extends Model
         ";
 
         $query = $this->db->prepare($statement);
-        $query->execute([
-            ":shoppingCartId" => SessionController::getShoppingCartId(),
-        ]);
-        $articles = [];
+        try {
+            $query->execute([
+                ":shoppingCartId" => SessionController::getShoppingCartId(),
+            ]);
 
-        foreach ($query->fetchAll() as $queryResult) {
-            $articles[] = self::mapQueryResultToArticle($queryResult);
+            $articles = [];
+
+            foreach ($query->fetchAll() as $queryResult) {
+                $articles[] = self::mapQueryResultToArticle($queryResult);
+            }
+
+            return new QueryResult($articles, null);
+        } catch (\PDOException $exception) {
+            return new QueryResult(null, 'Internal Error', 500);
         }
-        return $articles;
     }
 
     /**
      * @param string $id
      * @return Domain\Article|null
      */
-    public function getArticleById(string $id): ?\Model\Domain\Article
+    public function getArticleById(string $id): QueryResult
     {
         $statement = "select * from Article where article_id = :id";
 
         $query = $this->db->prepare($statement);
 
-        $query->execute([":id" => $id]);
-        $result = $query->fetch();
-        return self::mapQueryResultToArticle($result);
+        try {
+            $query->execute([":id" => $id]);
+            $result = $query->fetch();
+            $article = self::mapQueryResultToArticle($result);
+            return new QueryResult([$article], null);
+        } catch (\PDOException $exception) {
+            return new QueryResult(null, 'Internal Server Error', 500);
+        }
     }
 
     /**

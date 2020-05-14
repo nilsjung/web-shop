@@ -14,7 +14,7 @@ class ArticleView extends View
      */
     public function render()
     {
-        $this->template->articles = $this->model;
+        $this->template->articles = $this->model->getResult();
         $this->template->title = "Articles";
         return $this->template->render("Articles.inc");
     }
