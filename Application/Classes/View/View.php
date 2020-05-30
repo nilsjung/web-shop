@@ -4,7 +4,6 @@ namespace View;
 
 use Controller\SessionController;
 use Model\QueryResult;
-use mysql_xdevapi\Session;
 use Template\Template;
 
 /**
