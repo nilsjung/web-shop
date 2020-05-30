@@ -5,7 +5,7 @@
             <form method="post" action="/login">
                 <div class="form-group">
                     <label for="email-address">Email address</label>
-                    <input type="email" name="email-address" class="form-control" id="email-address"
+                    <input type="email" name="email_address" class="form-control" id="email-address"
                            aria-describedby="emailHelp">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.
                     </small>

@@ -29,6 +29,14 @@ class ShoppingCart extends Model
         return $this->articles;
     }
 
+    public function getArticle(string $articleId): ?Article
+    {
+        if (key_exists($articleId, $this->articles)) {
+            return $this->articles[$articleId];
+        }
+        return null;
+    }
+
     /**
      * add one article to the shopping cart
      *

@@ -19,9 +19,9 @@
 </head>
 <body>
 <div class="container">
-    <?= $body[ "navigation" ] ?>
+    <?= $content[ "navigation" ] ?>
 </div>
 
-<?php if ( $isDebug ) : echo $body[ "debug" ]; endif; ?>
+<?php if ( $isDebug ) : echo $content[ "debug" ]; endif; ?>
 </body>
 </html>

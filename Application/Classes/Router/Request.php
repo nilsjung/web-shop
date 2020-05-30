@@ -14,6 +14,7 @@ class Request implements RequestInterface
     public $redirectQueryString;
     public $redirectUrl;
     public $requestUri;
+    public $params = [];
 
     /**
      * Request constructor.
@@ -23,6 +24,8 @@ class Request implements RequestInterface
         foreach ($_SERVER as $key => $value) {
             $this->{$this->toCamelCase($key)} = $value;
         }
+
+        $this->createParameterFromRequest();
     }
 
     /**
@@ -53,41 +56,42 @@ class Request implements RequestInterface
     }
 
     /**
-     * @return array|null
+     * read and validate user input for GET and POST
      */
-    public function getBody()
+    private function createParameterFromRequest(): void
     {
         if ($this->requestMethod === "GET") {
-            return null;
+            foreach ($_GET as $key => $value) {
+                $this->params[$key] = filter_input(
+                    INPUT_GET,
+                    $key,
+                    FILTER_SANITIZE_SPECIAL_CHARS
+                );
+            }
         }
 
         if ($this->requestMethod == "POST") {
-            $body = [];
             foreach ($_POST as $key => $value) {
-                $body[$key] = filter_input(
+                $this->params[$key] = filter_input(
                     INPUT_POST,
                     $key,
                     FILTER_SANITIZE_SPECIAL_CHARS
                 );
             }
-
-            return $body;
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getParams()
+    protected function getParams(): array
     {
-        $params = [];
-        if ($this->redirectQueryString) {
-            $parameterValuePairs = explode("&", $this->redirectQueryString);
-            foreach ($parameterValuePairs as $paramValue) {
-                list($key, $value) = explode("=", $paramValue);
-                $params[$key] = $value;
-            }
+        return $this->params;
+    }
+
+    public function getParam(string $param): ?string
+    {
+        if (array_key_exists($param, $this->getParams())) {
+            return $this->getParams()[$param];
+        } else {
+            return null;
         }
-        return $params;
     }
 }

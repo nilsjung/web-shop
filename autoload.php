@@ -7,7 +7,7 @@ function loader($class)
 
     $DOCUMENT_ROOT = $_SERVER["DOCUMENT_ROOT"];
 
-    $path = $DOCUMENT_ROOT . '/Application/';
+    $path = $DOCUMENT_ROOT . '/Application/Classes';
 
     foreach ($pathSegments as $segment) {
         $path = $path . "/" . $segment;

@@ -15,4 +15,18 @@ class GUID
         $data[8] = chr((ord($data[8]) & 0x3f) | 0x80); // set bits 6-7 to 10
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
+
+    public static function validate(string $id): bool
+    {
+        if (
+            preg_match(
+                '/^\{?[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}\}?$/',
+                $id
+            )
+        ) {
+            return true;
+        }
+
+        return false;
+    }
 }

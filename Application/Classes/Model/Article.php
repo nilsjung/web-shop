@@ -29,7 +29,7 @@ class Article extends Model
                 select * from articles_in_cart where shopping_cart_id = :shoppingCartId
             ) as aic
         on a.article_id = aic.article_id
-";
+        ";
 
         $query = $this->db->prepare($statement);
         try {
@@ -73,7 +73,7 @@ class Article extends Model
      * @param $result
      * @return Domain\Article
      */
-    private static function mapQueryResultToArticle($result): Domain\Article
+    public static function mapQueryResultToArticle($result): Domain\Article
     {
         $article = new Domain\Article(
             $result["article_id"],
@@ -83,7 +83,11 @@ class Article extends Model
             $result["image_path"]
         );
 
-        $article->setInCart($result["count"]);
+        if (array_key_exists("count", $result)) {
+            $article->setInCart($result["count"]);
+        } else {
+            $article->setInCart(0);
+        }
         return $article;
     }
 }

@@ -20,7 +20,9 @@ class Template
      */
     public function __construct()
     {
-        $this->setScriptPath($_SERVER["DOCUMENT_ROOT"] . "/Public/Templates/");
+        $this->setScriptPath(
+            $_SERVER["DOCUMENT_ROOT"] . "/Application/Templates/"
+        );
         $this->properties = [];
     }
 

@@ -30,7 +30,7 @@ class ShoppingCart extends Model
 
             foreach ($result as $values) {
                 $shoppingCart->addArticle(
-                    self::mapQueryResultToArticle($values)
+                    Article::mapQueryResultToArticle($values)
                 );
             }
 
@@ -50,8 +50,10 @@ class ShoppingCart extends Model
         string $articleId
     ): QueryResult {
         $statement = "
-            insert into articles_in_cart (shopping_cart_id, article_id) 
-            values (:shoppingCartId, :articleId)";
+            insert into articles_in_cart (shopping_cart_id, article_id)
+            values (:shoppingCartId, :articleId)
+            on duplicate key update count=count+1;
+            ";
 
         $query = $this->db->prepare($statement);
 
@@ -62,7 +64,47 @@ class ShoppingCart extends Model
             ]);
             return $this->getById($shoppingCartId);
         } catch (\PDOException $exception) {
-            return new QueryResult(null, 'Internal Error');
+            return new QueryResult(null, 'Could not update', 500);
+        }
+    }
+
+    public function deleteArticle(
+        string $shoppingCartId,
+        string $articleId
+    ): QueryResult {
+        $statement = "
+            delete from articles_in_cart where shopping_cart_id=:shoppingCartId and article_id=:articleId;
+        ";
+
+        $query = $this->db->prepare($statement);
+        try {
+            $query->execute([
+                "shoppingCartId" => $shoppingCartId,
+                "articleId" => $articleId,
+            ]);
+            return $this->getById($shoppingCartId);
+        } catch (\PDOException $exception) {
+            return new QueryResult(null, 'Could not delete article', 500);
+        }
+    }
+
+    public function removeArticle(
+        string $shoppingCartId,
+        string $articleId
+    ): QueryResult {
+        $statement = "
+            update articles_in_cart set count = count -1 where shopping_cart_id=:shoppingCartId and article_id=:articleId;
+        ";
+
+        $query = $this->db->prepare($statement);
+        try {
+            $query->execute([
+                "shoppingCartId" => $shoppingCartId,
+                "articleId" => $articleId,
+            ]);
+            return $this->getById($shoppingCartId);
+        } catch (\PDOException $exception) {
+            return new QueryResult(null, 'Could not delete article', 500);
         }
     }
 
@@ -80,23 +122,5 @@ class ShoppingCart extends Model
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }
-    }
-
-    /**
-     * @param $result
-     * @return Domain\Article
-     */
-    private static function mapQueryResultToArticle($result): Domain\Article
-    {
-        $article = new Domain\Article(
-            $result["article_id"],
-            $result["article_name"],
-            $result["description"],
-            $result["stock"],
-            $result["image_path"]
-        );
-
-        $article->setInCart($result["count"]);
-        return $article;
     }
 }
