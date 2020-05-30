@@ -9,7 +9,7 @@ use Controller\UserController;
  * Method GET
  *
  */
-$router->get('/user', function (\Router\Request $request) {
+$router->get('/user', function () {
     $controller = new UserController(new Model\User());
 
     $id = \Controller\SessionController::getAuthenticatedUserId();

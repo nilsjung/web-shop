@@ -6,7 +6,7 @@
  * Route `/articles`
  * Method GET
  */
-$router->get('/articles', function (\Router\Request $request): string {
+$router->get('/articles', function (): string {
     $controller = new Controller\ArticleController();
     $controller->setModel(new Model\Article());
     $result = $controller->getAllArticles();
