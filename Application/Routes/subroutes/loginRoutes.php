@@ -33,20 +33,11 @@ $router->post('/login', function (\Router\Request $request) {
     \Controller\SessionController::resetSessionToken();
 
     $controller = new UserController(new \Model\User());
-    $queryResult = $controller->getUserByEmail($emailAddress);
+    $queryResult = $controller->login($emailAddress, $password);
 
     $loginView = new \View\LoginView($queryResult);
 
     if ($queryResult->hasError()) {
-        return $loginView->render();
-    }
-
-    if (
-        $controller->validatePassword($password, $queryResult->getResult()) ===
-        false
-    ) {
-        $loginView->validationError();
-
         return $loginView->render();
     }
 

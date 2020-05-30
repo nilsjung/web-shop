@@ -92,7 +92,7 @@ class User extends Model
      */
     public function setPassword($password): void
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**

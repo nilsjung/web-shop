@@ -80,4 +80,44 @@ class UserController extends Controller
 
         return false;
     }
+
+    private function refreshPasswordHash(
+        string $userId,
+        string $password,
+        string $storedHash
+    ): QueryResult {
+        $userResult = $this->getUserById($userId);
+
+        if (password_needs_rehash($storedHash, PASSWORD_DEFAULT)) {
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $user = $userResult->getResult();
+
+            $user->setPassword($hash);
+
+            return $this->model->updateUser($user);
+        }
+
+        return $userResult;
+    }
+
+    public function login(string $email, string $password): QueryResult
+    {
+        $userResult = $this->getUserByEmail($email);
+
+        if ($userResult->hasError()) {
+            return $userResult;
+        }
+
+        $user = $userResult->getResult();
+        if (password_verify($password, $user->getPassword())) {
+            $this->refreshPasswordHash(
+                $user->getId(),
+                $password,
+                $user->getPassword()
+            );
+            return $userResult;
+        } else {
+            return new QueryResult(null, "Error during authentication");
+        }
+    }
 }

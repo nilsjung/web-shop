@@ -7,7 +7,7 @@ create table webshop.User
     first_name       varchar(25) null,
     last_name        varchar(25) null,
     email_address    varchar(50) not null,
-    password         varchar(25) not null,
+    password         varchar(60) not null,
     shopping_cart_id int,
 
     PRIMARY KEY (user_id)
@@ -18,17 +18,17 @@ values ('343807fc-9938-4dec-ab9a-5a683a0e2e58',
         'Max',
         'Musterman',
         'test@user.com',
-        'password'),
+        '$2y$10$auPIaqVaD2YgXXejurZkWOE//ALG3m4I3XvKPFYUByf1/GXp.l/Ly'), # has of password: password
        ('630ea65b-8111-46fd-ad54-8a8d5a3a7e04',
         'Larry',
         'Murray',
         'larry.murray@kamille.ca',
-        'test'),
+        '$2y$10$auPIaqVaD2YgXXejurZkWOE//ALG3m4I3XvKPFYUByf1/GXp.l/Ly'),
        ('22cb9b80-29be-40d0-bbc2-5fd181b8747b',
         'Cecile',
         'Williamson',
         'cecile.williamson@katheryn.co.uk',
-        '12345678');
+        '$2y$10$auPIaqVaD2YgXXejurZkWOE//ALG3m4I3XvKPFYUByf1/GXp.l/Ly');
 
 create table webshop.Article
 (

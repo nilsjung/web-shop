@@ -28,6 +28,9 @@ class QueryResult
      */
     public function getResult()
     {
+        if (is_null($this->result)) {
+            return null;
+        }
         if (count($this->result) === 1) {
             return $this->result[array_key_first($this->result)];
         }
