@@ -49,6 +49,8 @@ $router->post('/user', function (\Router\Request $request): string {
         return "";
     }
 
+    $request->checkToken();
+
     $user = $controller->updateUserById(
         $id,
         $firstName,

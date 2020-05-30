@@ -15,7 +15,7 @@ use Model\Database;
 require_once 'autoload.php';
 require_once 'Application/Routes/routes.php';
 
-SessionController::start_session();
+SessionController::startSession();
 
 // create and render the navigation bar.
 $navigation = new \View\NavigationView(new \Model\QueryResult(null, null));

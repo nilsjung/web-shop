@@ -12,7 +12,7 @@
                             Some quick example text to build on the card title and make up the bulk of the
                             card's content.
                         </p>
-                        <a href="/articles/add-to-cart/?article_id=<?= $article->getId() ?>" class="btn btn-primary">
+                        <a href="/articles/add-to-cart/?article_id=<?= $article->getId()?>&token=<?= $this->token?>" class="btn btn-primary">
                             <i class="fas fa-cart-plus"></i>
                             <span class=""><?= $article->getInCart() . "/" . $article->getStock()?></span>
                         </a>

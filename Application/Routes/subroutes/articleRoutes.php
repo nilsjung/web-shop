@@ -24,6 +24,7 @@ $router->get('/articles', function (\Router\Request $request): string {
  */
 $router->get("/articles/add-to-cart", function (\Router\Request $request) {
     $articleId = $request->getParam("article_id");
+    $request->checkToken();
 
     if (!$articleId) {
         return "";

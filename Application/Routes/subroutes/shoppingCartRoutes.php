@@ -24,6 +24,8 @@ $router->get('/shopping-cart', function (): string {
  */
 $router->get("/shopping-cart/add/", function (\Router\Request $request) {
     $articleId = $request->getParam("article_id");
+    $request->checkToken();
+
     if (!$articleId) {
         return "article id not given";
     }
@@ -39,6 +41,7 @@ $router->get("/shopping-cart/add/", function (\Router\Request $request) {
 
     $shoppingCart = $controller->addArticle($shoppingCartId, $articleId);
     $view = new \View\ShoppingCartView($shoppingCart);
+    header("Location: /shopping-cart");
 
     return $view->render();
 });
@@ -53,6 +56,7 @@ $router->get('/shopping-cart/delete/', function (
     \Router\Request $request
 ): string {
     $articleId = $request->getParam("article_id");
+    $request->checkToken();
 
     if (!$articleId) {
         return "article id not given";
@@ -86,6 +90,7 @@ $router->get('/shopping-cart/remove/', function (
 ): string {
     $articleId = $request->getParam("article_id");
 
+    $request->checkToken();
     if (!$articleId) {
         return "article id not given";
     }

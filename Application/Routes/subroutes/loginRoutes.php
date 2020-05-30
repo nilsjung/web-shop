@@ -27,11 +27,10 @@ $router->post('/login', function (\Router\Request $request) {
     $password = $request->getParam("password");
 
     if (!($emailAddress && $password)) {
-        echo $_POST["email_address"];
-        echo $emailAddress;
-        echo $password;
-        return "";
+        return "missing parameter";
     }
+
+    \Controller\SessionController::resetSessionToken();
 
     $controller = new UserController(new \Model\User());
     $queryResult = $controller->getUserByEmail($emailAddress);
@@ -46,7 +45,6 @@ $router->post('/login', function (\Router\Request $request) {
         $controller->validatePassword($password, $queryResult->getResult()) ===
         false
     ) {
-        \Controller\SessionController::setAuthenticatedState(false);
         $loginView->validationError();
 
         return $loginView->render();
@@ -67,7 +65,7 @@ $router->post('/login', function (\Router\Request $request) {
  * Method Post
  */
 $router->get('/logout', function () {
-    session_destroy();
+    \Controller\SessionController::destroySession();
 
     header("Refresh:0; url=/login");
 });
