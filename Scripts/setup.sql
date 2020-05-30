@@ -66,7 +66,22 @@ VALUES ('0b5e61f3-2f66-43a1-aa7a-e1c2575c90a6',
         'Storm trooper',
         12,
         'A storm trooper costume. Lightweight and nice to wear.',
-        '/Public/Images/Articles/storm-trooper.jpg');
+        '/Public/Images/Articles/storm-trooper.jpg'),
+       ('57adbf2b-0c58-4397-8f8b-d25c488a4e0b',
+        'Yacht',
+        1,
+        'A beautiful yacht for sailing away',
+        '/Public/Images/Articles/yacht.jpg'),
+       ('e379de19-baeb-407f-98f6-03e0f393d83b',
+        'Bird',
+        5,
+        'A beautiful bird, chirping loudly songs',
+        '/Public/Images/Articles/bird.jpg'),
+       ('c424cbbf-8bfc-420a-87c0-ddf85f6f568a',
+        'Pencil',
+        10,
+        'Some nice pencils in every color you can imagine',
+        '/Public/Images/Articles/pencil.jpg');
 
 create table webshop.ShoppingCart
 (
@@ -74,9 +89,6 @@ create table webshop.ShoppingCart
 
     PRIMARY KEY (shopping_cart_id)
 );
-
-insert into webshop.ShoppingCart (shopping_cart_id)
-values ('67711d82-1c04-4edc-b0f6-050c3db818cf');
 
 create table webshop.articles_in_cart
 (
@@ -88,6 +100,3 @@ create table webshop.articles_in_cart
     FOREIGN KEY (shopping_cart_id) references ShoppingCart (shopping_cart_id),
     FOREIGN KEY (article_id) references Article (article_id)
 );
-
-insert into webshop.articles_in_cart (shopping_cart_id, article_id, count)
-values ('67711d82-1c04-4edc-b0f6-050c3db818cf', '0b5e61f3-2f66-43a1-aa7a-e1c2575c90a6', 2);
