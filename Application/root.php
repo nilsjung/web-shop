@@ -1,5 +1,10 @@
 <?php
 
+// prevent xss
+header(
+    "Content-Security-Policy:" . "default-src 'self';" . "script-src 'self'"
+);
+
 // create and render the navigation bar.
 $navigation = new \View\NavigationView(new \Model\QueryResult(null, null));
 $sessionUser = \Controller\SessionController::getAuthenticatedUserId();
