@@ -9,7 +9,7 @@ use Controller\UserController;
  * Method GET
  *
  */
-$router->get('/user', function (\Router\Request $request) {
+$router->get('/user', function () {
     $controller = new UserController(new Model\User());
 
     $id = \Controller\SessionController::getAuthenticatedUserId();
@@ -48,6 +48,8 @@ $router->post('/user', function (\Router\Request $request): string {
     if (!($firstName || $lastName || $emailAddress || $password)) {
         return "";
     }
+
+    $request->checkToken();
 
     $user = $controller->updateUserById(
         $id,

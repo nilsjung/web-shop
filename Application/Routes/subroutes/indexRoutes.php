@@ -6,4 +6,4 @@
  * Route `/`
  * Method GET
  */
-$router->get("/", function (\Router\Request $request) {});
+$router->get("/", function () {});

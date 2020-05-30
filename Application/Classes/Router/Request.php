@@ -2,6 +2,8 @@
 
 namespace Router;
 
+use Controller\SessionController;
+
 /**
  * Class Request
  *
@@ -78,6 +80,15 @@ class Request implements RequestInterface
                     FILTER_SANITIZE_SPECIAL_CHARS
                 );
             }
+        }
+    }
+
+    public function checkToken(): void
+    {
+        $token = $this->getParam("token");
+
+        if (!SessionController::isCSRFTokenValid($token)) {
+            die("invalid token");
         }
     }
 

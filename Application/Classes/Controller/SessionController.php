@@ -20,13 +20,26 @@ class SessionController
 
     private static $shoppingCartKey = "shopping_cart_id";
 
+    private static $csrfTokenKey = 'token';
+
     /**
      *
      */
-    public static function start_session()
+    public static function startSession()
     {
-        session_start();
+        session_start([
+            'use_only_cookies' => 1,
+            'cookie_lifetime' => 0,
+            'cookie_secure' => 1,
+            'cookie_httponly' => 1,
+        ]);
+        self::setCSRFToken();
         self::createShoppingCart();
+    }
+
+    public static function resetSessionToken()
+    {
+        session_regenerate_id();
     }
 
     /**
@@ -35,6 +48,24 @@ class SessionController
     public static function setAuthenticatedState(bool $state): void
     {
         $_SESSION[self::$authenticatedKey] = $state;
+    }
+
+    public static function setCSRFToken(): void
+    {
+        $_SESSION[self::$csrfTokenKey] = array_key_exists(
+            self::$csrfTokenKey,
+            $_SESSION
+        )
+            ? $_SESSION[self::$csrfTokenKey]
+            : md5(openssl_random_pseudo_bytes(32));
+    }
+
+    public static function isCSRFTokenValid(string $token)
+    {
+        if ($_SESSION[self::$csrfTokenKey] === $token) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -102,5 +133,15 @@ class SessionController
         $_SESSION[self::$shoppingCartKey] = $id;
 
         return new \Model\QueryResult([$shoppingCart], null);
+    }
+
+    public static function destroySession()
+    {
+        session_destroy();
+    }
+
+    public static function getCSRFToken()
+    {
+        return $_SESSION[self::$csrfTokenKey];
     }
 }

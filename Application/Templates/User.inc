@@ -5,6 +5,7 @@
         <form method="post" action="/user">
             <div class="form-row">
                 <div class="form-group col-md-6">
+                    <input type="hidden" name="token" value="<?=$this->token ?>"
                     <label for="first-name">First Name</label>
                     <input type="text" name="first_name" class="form-control" id="first-name" value="<?= $this->firstName ?>">
                 </div>

@@ -6,7 +6,7 @@
  * Route `/articles`
  * Method GET
  */
-$router->get('/articles', function (\Router\Request $request): string {
+$router->get('/articles', function (): string {
     $controller = new Controller\ArticleController();
     $controller->setModel(new Model\Article());
     $result = $controller->getAllArticles();
@@ -24,6 +24,7 @@ $router->get('/articles', function (\Router\Request $request): string {
  */
 $router->get("/articles/add-to-cart", function (\Router\Request $request) {
     $articleId = $request->getParam("article_id");
+    $request->checkToken();
 
     if (!$articleId) {
         return "";

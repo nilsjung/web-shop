@@ -2,6 +2,7 @@
 
 namespace View;
 
+use Controller\SessionController;
 use Model\QueryResult;
 use Template\Template;
 
@@ -22,6 +23,8 @@ abstract class View
      */
     protected $template;
 
+    protected $token;
+
     /**
      * View constructor.
      *
@@ -32,6 +35,8 @@ abstract class View
         $this->model = $queryResult;
         $template = new Template();
         $this->setTemplate($template);
+
+        $this->template->token = SessionController::getCSRFToken();
     }
 
     /**
