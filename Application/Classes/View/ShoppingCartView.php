@@ -2,6 +2,8 @@
 
 namespace View;
 
+use Controller\SessionController;
+
 /**
  * Class ArticleView
  *
@@ -14,6 +16,9 @@ class ShoppingCartView extends View
      */
     public function render(): string
     {
+        $this->template->isAuthenticated = SessionController::isAuthenticated()
+            ? "true"
+            : "false";
         $this->template->articles = $this->model->getResult()->getArticles();
         return $this->template->render("ShoppingCart.inc");
     }

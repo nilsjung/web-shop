@@ -7,6 +7,9 @@
  * Method GET
  *
  */
+
+use Controller\UserController;
+
 $router->get('/shopping-cart', function (): string {
     $controller = new Controller\ShoppingCartController();
     $controller->setModel(new \Model\ShoppingCart());
@@ -16,7 +19,50 @@ $router->get('/shopping-cart', function (): string {
     );
 
     $view = new View\ShoppingCartView($shoppingCart);
+    $view->setProperties(["paginationStep" => 0]);
     return $view->render();
+});
+
+$router->post('/shopping-cart/login', function (
+    \Router\Request $request
+): string {
+    $emailAddress = $request->getParam("email");
+    $password = $request->getParam("password");
+
+    ob_clean();
+    header('Content-Type: text/json');
+
+    if (!($emailAddress && $password)) {
+        return json_encode([
+            "error" => "Password or email address is missing",
+            "data" => null,
+        ]);
+    }
+
+    \Controller\SessionController::resetSessionToken();
+    $user = new \Model\User();
+    $controller = new UserController($user);
+    $queryResult = $controller->login($emailAddress, $password);
+
+    if ($queryResult->hasError()) {
+        return json_encode(["error" => "Email Address or Password wrong"]);
+    }
+
+    \Controller\SessionController::setAuthenticatedState(true);
+    \Controller\SessionController::setAuthenticatedUserId(
+        $queryResult->getResult()->getId()
+    );
+
+    return json_encode([
+        "result" => [
+            "error" => null,
+            "data" => [
+                "firstName" => $queryResult->getResult()->getFirstName(),
+                "lastName" => $queryResult->getResult()->getLastName(),
+                "emailAddress" => $queryResult->getResult()->getEmailAddress(),
+            ],
+        ],
+    ]);
 });
 
 /**
