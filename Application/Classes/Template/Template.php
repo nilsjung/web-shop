@@ -43,6 +43,7 @@ class Template
         ob_start();
         if (file_exists($this->_scriptPath . $filename)) {
             include $this->_scriptPath . $filename;
+            include $this->_scriptPath . "MainFooter.inc";
         } else {
             echo "Template not found";
         }
