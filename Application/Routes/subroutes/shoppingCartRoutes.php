@@ -60,6 +60,38 @@ $router->post('/shopping-cart/login', function (
             "data" => [
                 "firstName" => $queryResult->getResult()->getFirstName(),
                 "lastName" => $queryResult->getResult()->getLastName(),
+                "paymentMethod" => $queryResult
+                    ->getResult()
+                    ->getPaymentMethod(),
+                "emailAddress" => $queryResult->getResult()->getEmailAddress(),
+            ],
+        ],
+    ]);
+});
+
+$router->get('/shopping-cart/user/', function () {
+    ob_clean();
+    header('Content-Type: text/json');
+
+    $controller = new UserController(new Model\User());
+    $id = \Controller\SessionController::getAuthenticatedUserId();
+
+    if ($id === null) {
+        return "";
+    }
+
+    $queryResult = $controller->getUserById($id);
+
+    return json_encode([
+        "result" => [
+            "error" => null,
+            "token" => \Controller\SessionController::getCSRFToken(),
+            "data" => [
+                "firstName" => $queryResult->getResult()->getFirstName(),
+                "lastName" => $queryResult->getResult()->getLastName(),
+                "paymentMethod" => $queryResult
+                    ->getResult()
+                    ->getPaymentMethod(),
                 "emailAddress" => $queryResult->getResult()->getEmailAddress(),
             ],
         ],

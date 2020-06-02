@@ -19,7 +19,7 @@
             </ul>
         </div>
         <div class="col-6">
-        <div id="checkout-container" data-pagination-step="<?= $this->paginationStep?>" data-is-authenticated="<?= $this->isAuthenticated?>" ></div>
+        <div id="checkout-container" data-is-authenticated="<?= $this->isAuthenticated?>" ></div>
         </div>
     </div>
 </div>

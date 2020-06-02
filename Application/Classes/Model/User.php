@@ -22,10 +22,11 @@ class User extends Model
         $lastName = $user->getLastName();
         $email = $user->getEmailAddress();
         $password = $user->getPassword();
+        $paymentMethod = $user->getPaymentMethod();
 
         $statement = "
         UPDATE User 
-        set first_name = :first_name, last_name = :last_name, email_address = :email_address, password = :password 
+        set first_name = :first_name, last_name = :last_name, email_address = :email_address, password = :password, payment_method=:payment_method
         WHERE user_id = :user_id";
 
         $query = $this->db->prepare($statement);
@@ -35,6 +36,7 @@ class User extends Model
         $query->bindParam(":last_name", $lastName, \PDO::PARAM_STR);
         $query->bindParam(":email_address", $email, \PDO::PARAM_STR);
         $query->bindParam(":password", $password, \PDO::PARAM_STR);
+        $query->bindParam(":payment_method", $password, \PDO::PARAM_STR);
 
         if ($query->execute() === 1) {
             echo "error during update process";
@@ -111,6 +113,7 @@ class User extends Model
         $user->setLastName($result["last_name"]);
         $user->setEmailAddress($result["email_address"]);
         $user->setPassword($result["password"]);
+        $user->setPaymentMethod($result["payment_method"]);
         $user->setId($result["user_id"]);
 
         return $user;

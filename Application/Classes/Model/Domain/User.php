@@ -9,6 +9,7 @@ class User extends Model
     private string $lastName;
     private string $emailAddress;
     private string $password;
+    private string $paymentMethod;
     private ShoppingCart $shoppingCart;
 
     public function __construct()
@@ -61,6 +62,22 @@ class User extends Model
     public function setLastName($lastName): void
     {
         $this->lastName = $lastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentMethod(): string
+    {
+        return $this->paymentMethod;
+    }
+
+    /**
+     * @param string $paymentMethod
+     */
+    public function setPaymentMethod(string $paymentMethod): void
+    {
+        $this->paymentMethod = $paymentMethod;
     }
 
     /**

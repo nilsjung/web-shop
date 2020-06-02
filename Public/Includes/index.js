@@ -52,11 +52,12 @@
     }
 
     class Radio extends Input {
-        constructor(label, id, name, classNames, value) {
+        constructor(label, id, name, classNames, value, isChecked) {
             super(label, id, classNames, "radio");
             this.label = label;
             this.name = name;
-            this.values = value;
+            this.value = value;
+            this.isChecked = isChecked;
         }
 
         render() {
@@ -67,6 +68,7 @@
             input.type = this.type;
             input.name = this.name;
             input.value = this.value;
+            input.checked = this.isChecked;
             input.className = this.classNames = " form-control";
             label.innerHTML = this.label;
             label.setAttribute("for", this.id);
@@ -80,18 +82,35 @@
     }
 
     let checkoutContainer = {
+        rootElem: null,
         paginationStep: 0,
         user: null,
         paymentMethod: null,
+        token: null,
         container: null,
         __init: function (elem) {
             // if the node does not exists, quit initialization process
             if (!elem) {
                 return;
             }
+
+            const _this = this;
+
+            this.rootElem = elem;
+            _this.container = document.createElement("div");
+            _this.rootElem.appendChild(_this.container);
+
             let isAuthenticated = elem.getAttribute("data-is-authenticated");
             if (isAuthenticated === "true") {
-                elem.appendChild(this.buildContainer());
+                this.getUser()
+                    .then((result) => {
+                        console.log(result);
+                        _this.user = result.data;
+                        _this.token = result.token;
+
+                        _this.payment(result.data);
+                    })
+                    .catch((error) => console.log(error));
                 if (this.paginationStep === 0) {
                     console.warn("An Error occurred during the login process.");
                 }
@@ -99,20 +118,28 @@
                 elem.appendChild(this.login());
             }
         },
+        getUser: async () => {
+            return new Promise((resolve, reject) => {
+                let request = new XMLHttpRequest();
 
-        buildContainer: function (content) {
-            this.container = document.createElement("div");
-            let submitButton = new Button("next", function () {
-                console.log("test");
+                request.open("get", "/shopping-cart/user");
+                request.responseType = "json";
+
+                request.onloadend = function () {
+                    if (request.status === 200 && request.response) {
+                        resolve(request.response.result);
+                    } else {
+                        reject("Error");
+                    }
+                };
+
+                request.send();
             });
-            this.container.appendChild(submitButton.render());
-            return this.container;
         },
-
-        login: function () {
+        login: async () => {
             const _this = this;
-            _this.container = document.createElement("form");
-            _this.container.className = "login-container";
+            const formContainer = document.createElement("form");
+            _this.container.appendChild(formContainer);
 
             let infoText = document.createElement("p");
             infoText.innerHTML =
@@ -127,30 +154,27 @@
             );
             let submitButton = new Button(
                 "Login",
-                function (event) {
-                    event.preventDefault();
-                    let request = new XMLHttpRequest();
-                    request.open("post", "/shopping-cart/login");
-                    request.responseType = "json";
+                (clickEvent) => {
+                    return new Promise((resolve, reject) => {
+                        clickEvent.preventDefault();
+                        let request = new XMLHttpRequest();
+                        request.open("post", "/shopping-cart/login");
+                        request.responseType = "json";
 
-                    let data = new FormData();
-                    data.append("password", "test");
-                    data.append("email", "test@user.com");
-                    request.addEventListener("loadend", function (event) {
-                        if (
-                            event.target &&
-                            event.target.status === 200 &&
-                            event.target.response
-                        ) {
-                            let result = event.target.response.result;
-                            _this.user = result.data;
-                            _this.paginationStep = 1;
-                            _this.container.innerHTML = "";
-
-                            _this.payment();
-                        }
+                        let data = new FormData();
+                        data.append("password", "test");
+                        data.append("email", "test@user.com");
+                        request.onloadend = (responseEvent) => {
+                            if (request.status === 200 && request.response) {
+                                let result = request.response.result;
+                                resolve(result);
+                                _this.user = result.data;
+                                _this.token = result.token;
+                                _this.container.innerHTML = "";
+                            }
+                        };
+                        request.send(data);
                     });
-                    request.send(data);
                 },
                 "submit"
             );
@@ -161,16 +185,12 @@
             _this.container.appendChild(submitButton.render());
             return _this.container;
         },
-
-        payment: function () {
+        payment: function (user) {
             const _this = this;
+
             let welcome = document.createElement("div");
             welcome.innerHTML =
-                "<p>Welcome " +
-                _this.user.firstName +
-                " " +
-                _this.user.lastName +
-                "</p>";
+                "<p>Welcome " + user.firstName + " " + user.lastName + "</p>";
             _this.container.appendChild(welcome);
 
             let paymentForm = document.createElement("form");
@@ -181,13 +201,16 @@
                 "credit-card",
                 "payment-method",
                 "radio input",
-                "credit-card"
+                "credit_card",
+                _this.user.paymentMethod === "credit_card"
             );
             let paypal = new Radio(
                 "PayPal",
                 "paypal",
                 "payment-method",
-                "paypal"
+                "paypal",
+                "paypal",
+                _this.user.paymentMethod === "paypal"
             );
 
             let buttonNext = new Button("Next", function () {
@@ -200,6 +223,11 @@
             paymentMethods.appendChild(buttonNext.render());
             paymentForm.appendChild(paymentMethods);
             _this.container.appendChild(paymentForm);
+        },
+        submit: function () {
+            _this = this;
+
+            _this.container = document.createElement("div");
         },
     };
 
