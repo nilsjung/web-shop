@@ -56,6 +56,7 @@ $router->post('/shopping-cart/login', function (
     return json_encode([
         "result" => [
             "error" => null,
+            "token" => \Controller\SessionController::getCSRFToken(),
             "data" => [
                 "firstName" => $queryResult->getResult()->getFirstName(),
                 "lastName" => $queryResult->getResult()->getLastName(),
