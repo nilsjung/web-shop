@@ -81,6 +81,8 @@
 
     let checkoutContainer = {
         paginationStep: 0,
+        user: null,
+        paymentMethod: null,
         container: null,
         __init: function (elem) {
             // if the node does not exists, quit initialization process
@@ -88,21 +90,17 @@
                 return;
             }
             let isAuthenticated = elem.getAttribute("data-is-authenticated");
-            let paginationStep = elem.getAttribute("data-pagination-step");
             if (isAuthenticated === "true") {
                 elem.appendChild(this.buildContainer());
                 if (this.paginationStep === 0) {
-                    console.warn("An Error occured during the login process.");
-                } else if (this.paginationStep === "1") {
-                } else if (this.paginationStep === 3) {
-                    console.log("Check and Submit");
+                    console.warn("An Error occurred during the login process.");
                 }
             } else {
                 elem.appendChild(this.login());
             }
         },
 
-        buildContainer: function () {
+        buildContainer: function (content) {
             this.container = document.createElement("div");
             let submitButton = new Button("next", function () {
                 console.log("test");
@@ -145,47 +143,11 @@
                             event.target.response
                         ) {
                             let result = event.target.response.result;
+                            _this.user = result.data;
                             _this.paginationStep = 1;
-
                             _this.container.innerHTML = "";
-                            let welcome = document.createElement("div");
-                            welcome.innerHTML =
-                                "<p>Welcome " +
-                                result["data"]["firstName"] +
-                                " " +
-                                result["data"]["lastName"] +
-                                "</p>";
-                            _this.container.appendChild(welcome);
 
-                            let paymentForm = document.createElement("form");
-
-                            let paymentMethods = document.createElement(
-                                "fieldset"
-                            );
-                            let creditCard = new Radio(
-                                "Credit Card",
-                                "credit-card",
-                                "payment-method",
-                                "radio input",
-                                "credit-card"
-                            );
-                            let paypal = new Radio(
-                                "PayPal",
-                                "paypal",
-                                "payment-method",
-                                "paypal"
-                            );
-
-                            let buttonNext = new Button("Next", function () {
-                                _this.paginationStep = 3;
-                                _this.container.innerHTML = null;
-                            });
-
-                            paymentMethods.appendChild(creditCard.render());
-                            paymentMethods.appendChild(paypal.render());
-                            paymentMethods.appendChild(buttonNext.render());
-                            paymentForm.appendChild(paymentMethods);
-                            _this.container.appendChild(paymentForm);
+                            _this.payment();
                         }
                     });
                     request.send(data);
@@ -198,6 +160,46 @@
             _this.container.appendChild(passwordInput.render());
             _this.container.appendChild(submitButton.render());
             return _this.container;
+        },
+
+        payment: function () {
+            const _this = this;
+            let welcome = document.createElement("div");
+            welcome.innerHTML =
+                "<p>Welcome " +
+                _this.user.firstName +
+                " " +
+                _this.user.lastName +
+                "</p>";
+            _this.container.appendChild(welcome);
+
+            let paymentForm = document.createElement("form");
+
+            let paymentMethods = document.createElement("fieldset");
+            let creditCard = new Radio(
+                "Credit Card",
+                "credit-card",
+                "payment-method",
+                "radio input",
+                "credit-card"
+            );
+            let paypal = new Radio(
+                "PayPal",
+                "paypal",
+                "payment-method",
+                "paypal"
+            );
+
+            let buttonNext = new Button("Next", function () {
+                _this.paginationStep = 3;
+                _this.container.innerHTML = null;
+            });
+
+            paymentMethods.appendChild(creditCard.render());
+            paymentMethods.appendChild(paypal.render());
+            paymentMethods.appendChild(buttonNext.render());
+            paymentForm.appendChild(paymentMethods);
+            _this.container.appendChild(paymentForm);
         },
     };
 
