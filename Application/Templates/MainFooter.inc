@@ -1,3 +1,3 @@
-<script src="/Public/Includes/index.js" ></script>
+<script src="/Public/Includes/custom.js" ></script>
 </body>
 </html>
