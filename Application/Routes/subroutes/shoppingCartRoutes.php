@@ -7,6 +7,9 @@
  * Method GET
  *
  */
+
+use Controller\UserController;
+
 $router->get('/shopping-cart', function (): string {
     $controller = new Controller\ShoppingCartController();
     $controller->setModel(new \Model\ShoppingCart());
@@ -16,6 +19,7 @@ $router->get('/shopping-cart', function (): string {
     );
 
     $view = new View\ShoppingCartView($shoppingCart);
+    $view->setProperties(["paginationStep" => 0]);
     return $view->render();
 });
 

@@ -8,27 +8,28 @@ create table webshop.User
     last_name        varchar(25) null,
     email_address    varchar(50) not null,
     password         varchar(60) not null,
+    payment_method enum('paypal', 'credit_card') not null,
     shopping_cart_id int,
 
     PRIMARY KEY (user_id)
 );
 
-insert into webshop.User (user_id, first_name, last_name, email_address, password)
+insert into webshop.User (user_id, first_name, last_name, email_address, password, payment_method)
 values ('343807fc-9938-4dec-ab9a-5a683a0e2e58',
         'Max',
         'Musterman',
         'test@user.com',
-        '$2y$10$auPIaqVaD2YgXXejurZkWOE//ALG3m4I3XvKPFYUByf1/GXp.l/Ly'), # has of password: password
+        'test', 'paypal'),
        ('630ea65b-8111-46fd-ad54-8a8d5a3a7e04',
         'Larry',
         'Murray',
         'larry.murray@kamille.ca',
-        '$2y$10$auPIaqVaD2YgXXejurZkWOE//ALG3m4I3XvKPFYUByf1/GXp.l/Ly'),
+        '$2y$10$auPIaqVaD2YgXXejurZkWOE//ALG3m4I3XvKPFYUByf1/GXp.l/Ly', 'credit_card'),
        ('22cb9b80-29be-40d0-bbc2-5fd181b8747b',
         'Cecile',
         'Williamson',
         'cecile.williamson@katheryn.co.uk',
-        '$2y$10$auPIaqVaD2YgXXejurZkWOE//ALG3m4I3XvKPFYUByf1/GXp.l/Ly');
+        '$2y$10$auPIaqVaD2YgXXejurZkWOE//ALG3m4I3XvKPFYUByf1/GXp.l/Ly', 'paypal');
 
 create table webshop.Article
 (
