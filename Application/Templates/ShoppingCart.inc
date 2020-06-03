@@ -18,8 +18,5 @@
                 <? endforeach; ?>
             </ul>
         </div>
-        <div class="col-6">
-        <div id="checkout-container" data-is-authenticated="<?= $this->isAuthenticated?>" ></div>
-        </div>
     </div>
 </div>
