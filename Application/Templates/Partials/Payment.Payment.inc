@@ -8,7 +8,7 @@
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="payment_method" id="credit-card" value="credit_card" "<?= $this->paymentMethod === "credit_cart" ? "checked=true" : "" ?>">
+            <input class="form-check-input" type="radio" name="payment_method" id="credit-card" value="credit_card" <?= $this->paymentMethod === "credit_card" ? "checked=true" : "" ?>">
             <label class="form-check-label" for="credit-card">
                 Credit Card
             </label>

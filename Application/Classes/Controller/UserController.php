@@ -34,6 +34,7 @@ class UserController extends Controller
      * @param string $firstName
      * @param string $lastName
      * @param string $emailAddress
+     * @param string $paymentMethod
      * @param string $password
      * @return QueryResult
      */
@@ -42,6 +43,7 @@ class UserController extends Controller
         string $firstName,
         string $lastName,
         string $emailAddress,
+        string $paymentMethod,
         string $password
     ): QueryResult {
         $user = new \Model\Domain\User();
@@ -50,6 +52,7 @@ class UserController extends Controller
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
         $user->setEmailAddress($emailAddress);
+        $user->setPaymentMethod($paymentMethod);
         $user->setPassword($password);
 
         return $this->model->updateUser($user);
@@ -90,6 +93,11 @@ class UserController extends Controller
         return $userResult;
     }
 
+    /**
+     * @param string $email
+     * @param string $password
+     * @return QueryResult
+     */
     public function login(string $email, string $password): QueryResult
     {
         $userResult = $this->getUserByEmail($email);

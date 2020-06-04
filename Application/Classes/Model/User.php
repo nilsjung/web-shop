@@ -36,7 +36,7 @@ class User extends Model
         $query->bindParam(":last_name", $lastName, \PDO::PARAM_STR);
         $query->bindParam(":email_address", $email, \PDO::PARAM_STR);
         $query->bindParam(":password", $password, \PDO::PARAM_STR);
-        $query->bindParam(":payment_method", $password, \PDO::PARAM_STR);
+        $query->bindParam(":payment_method", $paymentMethod, \PDO::PARAM_STR);
 
         if ($query->execute() === 1) {
             echo "error during update process";

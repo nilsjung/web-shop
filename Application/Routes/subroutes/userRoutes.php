@@ -43,6 +43,7 @@ $router->post('/user', function (\Router\Request $request): string {
     $firstName = $request->getParam("first_name");
     $lastName = $request->getParam("last_name");
     $emailAddress = $request->getParam("email_address");
+    $paymentMethod = $request->getParam("payment_method");
     $password = $request->getParam("password");
 
     if (!($firstName || $lastName || $emailAddress || $password)) {
@@ -56,6 +57,7 @@ $router->post('/user', function (\Router\Request $request): string {
         $firstName,
         $lastName,
         $emailAddress,
+        $paymentMethod,
         $password
     );
 

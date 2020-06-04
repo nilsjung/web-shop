@@ -70,6 +70,36 @@ class Article extends Model
         }
     }
 
+    public function reduceStock(array $articles): void
+    {
+        $statement = "";
+
+        $reindexed = [];
+        $counter = 0;
+        foreach ($articles as $key => $article) {
+            $reindexed[$counter] = $article;
+            $statement .=
+                "update Article set stock = stock - :stock" .
+                $counter .
+                " where article_id = :id" .
+                $counter .
+                "; ";
+            $counter++;
+        }
+
+        $query = $this->db->prepare($statement);
+        foreach ($reindexed as $key => $article) {
+            $query->bindValue(":stock" . $key, $article->getInCart());
+            $query->bindValue(":id" . $key, $article->getId());
+        }
+
+        try {
+            $query->execute();
+        } catch (\PDOException $exception) {
+            die("Error during update process");
+        }
+    }
+
     /**
      * @param $result
      * @return Domain\Article

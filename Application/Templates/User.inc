@@ -21,6 +21,18 @@
                     <label for="password">Password</label>
                     <input type="password" name="password" class="form-control" id="password" value="<?= $this->password ?>">
                 </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="paypal" <?= $this->paymentMethod === "paypal" ? "checked=true" : "" ?>">
+                    <label class="form-check-label" for="paypal">
+                        PayPal
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="payment_method" id="credit-card" value="credit_card" <?= $this->paymentMethod === "credit_card" ? "checked=true" : "" ?>">
+                    <label class="form-check-label" for="credit-card">
+                        Credit Card
+                    </label>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
         </form>

@@ -25,4 +25,12 @@ class ArticleController extends Controller
     {
         return $this->model->getArticleById($article_id);
     }
+
+    /**
+     * @param array $getArticles
+     */
+    public function reduceStock(array $articles): void
+    {
+        $this->model->reduceStock($articles);
+    }
 }

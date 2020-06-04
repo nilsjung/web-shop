@@ -16,10 +16,10 @@ class ShoppingCart extends Model
     public function getById(string $id): QueryResult
     {
         $statement = "
-    select a.article_id, article_name, aic.count, stock, price, description, image_path
-    from ShoppingCart as sc, articles_in_cart as aic, Article as a
-    where sc.shopping_cart_id = :id and sc.shopping_cart_id = aic.shopping_cart_id and a.article_id = aic.article_id;
-    ";
+            select a.article_id, article_name, aic.count, stock, price, description, image_path
+            from ShoppingCart as sc, articles_in_cart as aic, Article as a
+            where sc.shopping_cart_id = :id and sc.shopping_cart_id = aic.shopping_cart_id and a.article_id = aic.article_id;
+        ";
         $query = $this->db->prepare($statement);
 
         try {
@@ -68,6 +68,11 @@ class ShoppingCart extends Model
         }
     }
 
+    /**
+     * @param string $shoppingCartId
+     * @param string $articleId
+     * @return QueryResult
+     */
     public function deleteArticle(
         string $shoppingCartId,
         string $articleId
@@ -88,6 +93,11 @@ class ShoppingCart extends Model
         }
     }
 
+    /**
+     * @param string $shoppingCartId
+     * @param string $articleId
+     * @return QueryResult
+     */
     public function removeArticle(
         string $shoppingCartId,
         string $articleId

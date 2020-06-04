@@ -46,6 +46,11 @@ class ShoppingCartController extends Controller
         return $this->model->addArticle($shoppingCartId, $articleId);
     }
 
+    /**
+     * @param string $shoppingCartId
+     * @param string $articleId
+     * @return QueryResult
+     */
     public function removeArticle(
         string $shoppingCartId,
         string $articleId
@@ -61,6 +66,11 @@ class ShoppingCartController extends Controller
         return $this->model->removeArticle($shoppingCartId, $articleId);
     }
 
+    /**
+     * @param string $shoppingCartId
+     * @param string $articleId
+     * @return QueryResult
+     */
     public function deleteArticle(
         string $shoppingCartId,
         string $articleId
@@ -68,6 +78,10 @@ class ShoppingCartController extends Controller
         return $this->model->deleteArticle($shoppingCartId, $articleId);
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
     public function insertShoppingCart(string $id)
     {
         return $this->model->save($id);

@@ -111,12 +111,12 @@ create table webshop.articles_in_cart
     FOREIGN KEY (article_id) references webshop.Article (article_id)
 );
 
-create table webshop.order
+create table webshop.Order
 (
     order_id varchar(36),
     user_id varchar(36),
-    order_total float,
+    order_total varchar(10),
 
-    primary key (order_id),
+    primary key (order_id) ,
     foreign key (user_id) references webshop.User (user_id)
-)
+);
