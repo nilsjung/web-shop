@@ -17,14 +17,14 @@
             </ul>
         </div>
         <div class="card-body">
-            <?php if ($this->paymentStep === 0) : ?>
+            <?if ($this->paymentStep === 0) : ?>
                 <?=$this->loginPartial?>
-            <?endif;?>
-            <?php if ($this->paymentStep === 1) : ?>
+            <?elseif ($this->paymentStep === 1) : ?>
                 <?=$this->userPartial?>
-            <?endif; ?>
-            <?php if ($this->paymentStep === 2) : ?>
+            <?elseif ($this->paymentStep === 2) : ?>
                 <?=$this->paymentPartial?>
+            <?elseif ($this->paymentStep === 3) : ?>
+                <?=$this->confirmationPartial?>
             <?endif; ?>
         </div>
     </div>

@@ -36,6 +36,7 @@ $router->get('/payment', function (\Router\Request $request): string {
             ))->render(),
             "paymentPartial" => "",
             "userPartial" => "",
+            "confirmationPartial" => "",
         ]);
     } else {
         // get logged in user information
@@ -52,6 +53,9 @@ $router->get('/payment', function (\Router\Request $request): string {
                 $paymentQueryResult
             ))->render(),
             "userPartial" => (new \View\Partials\PaymentUserPartialView(
+                $paymentQueryResult
+            ))->render(),
+            "confirmationPartial" => (new \View\Partials\PaymentConfirmationPartialView(
                 $paymentQueryResult
             ))->render(),
         ]);

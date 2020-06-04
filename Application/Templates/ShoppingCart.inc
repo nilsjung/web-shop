@@ -2,7 +2,7 @@
     <h1 class="mt-5 mb-5">Your Shopping Cart</h1>
     <div class="row">
         <div class="col-6">
-            <ul class="list-group">
+            <ul class="list-group-list list-group-flush">
                 <? foreach ($this->articles as $article) : ?>
                     <li class="list-group-item d-flex justify-content-between">
                         <?= $article->getName() ?>

@@ -2,7 +2,7 @@
 <div class="row mt-4">
     <div class="col-6">
         <h6 class="">This is your current order</h6>
-        <ul class="list-group">
+        <ul class="list-group-list list-group-flush">
             <? foreach ($this->articles as $article) : ?>
                 <li class="list-group-item d-flex justify-content-between">
                     <?= $article->getName() ?>
@@ -34,5 +34,5 @@
     </div>
 </div>
 <div class="text-center mt-5">
-    <a href="/payment/order?token=<?=$this->token?>" class="btn btn-primary">Buy</a>
+    <a href="/payment?step=3&token=<?=$this->token?>" class="btn btn-primary">Next</a>
 </div>
