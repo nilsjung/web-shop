@@ -14,7 +14,7 @@ abstract class Controller
     /**
      * @param \Model\Model $model
      */
-    public function __constructor(\Model\Model $model)
+    public function __construct(\Model\Model $model)
     {
         $this->setModel($model);
     }

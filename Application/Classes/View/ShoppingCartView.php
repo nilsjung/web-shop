@@ -16,9 +16,9 @@ class ShoppingCartView extends View
      */
     public function render(): string
     {
-        $this->template->isAuthenticated = SessionController::isAuthenticated()
-            ? "true"
-            : "false";
+        $this->template->paymentStep = SessionController::isAuthenticated()
+            ? 1
+            : 0;
         $this->template->articles = $this->model->getResult()->getArticles();
         return $this->template->render("ShoppingCart.inc");
     }

@@ -30,6 +30,6 @@ class NavigationView extends View
             $this->template->activeRoute = '/';
         }
 
-        return $this->template->render("Navigation.inc");
+        return $this->template->renderPartial("Navigation.inc");
     }
 }

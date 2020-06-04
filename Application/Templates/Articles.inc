@@ -1,4 +1,4 @@
-<section class="articles-container container">
+<div class="articles-container container">
     <h1 class="mt-5 mb-5"><?= $this->title ?></h1>
     <div class="row">
         <?php foreach ( $this->articles as $article ) : ?>
@@ -21,5 +21,4 @@
             </div>
         <? endforeach; ?>
     </div>
-    </div>
-</section>
+</div>

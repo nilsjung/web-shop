@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function __construct(\Model\User $model)
     {
-        parent::__constructor($model);
+        parent::__construct($model);
     }
 
     /**

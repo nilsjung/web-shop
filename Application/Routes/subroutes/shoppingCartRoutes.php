@@ -11,8 +11,9 @@
 use Controller\UserController;
 
 $router->get('/shopping-cart', function (): string {
-    $controller = new Controller\ShoppingCartController();
-    $controller->setModel(new \Model\ShoppingCart());
+    $controller = new Controller\ShoppingCartController(
+        new \Model\ShoppingCart()
+    );
 
     $shoppingCart = $controller->getById(
         \Controller\SessionController::getShoppingCartId()
@@ -40,8 +41,9 @@ $router->get("/shopping-cart/add/", function (\Router\Request $request) {
         return "not a valid id";
     }
 
-    $controller = new \Controller\ShoppingCartController();
-    $controller->setModel(new \Model\ShoppingCart());
+    $controller = new \Controller\ShoppingCartController(
+        new \Model\ShoppingCart()
+    );
 
     $shoppingCart = $controller->addArticle($shoppingCartId, $articleId);
     $view = new \View\ShoppingCartView($shoppingCart);
@@ -72,8 +74,9 @@ $router->get('/shopping-cart/delete/', function (
         return "no valid id";
     }
 
-    $controller = new \Controller\ShoppingCartController();
-    $controller->setModel(new \Model\ShoppingCart());
+    $controller = new \Controller\ShoppingCartController(
+        new \Model\ShoppingCart()
+    );
 
     $shoppingCart = $controller->deleteArticle($shoppingCartId, $articleId);
 
@@ -105,8 +108,9 @@ $router->get('/shopping-cart/remove/', function (
         return "no valid id";
     }
 
-    $controller = new \Controller\ShoppingCartController();
-    $controller->setModel(new \Model\ShoppingCart());
+    $controller = new \Controller\ShoppingCartController(
+        new \Model\ShoppingCart()
+    );
 
     $shoppingCart = $controller->removeArticle($shoppingCartId, $articleId);
 

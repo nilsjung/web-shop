@@ -32,8 +32,9 @@ $router->get("/articles/add-to-cart", function (\Router\Request $request) {
 
     $shoppingCartId = \Controller\SessionController::getShoppingCartId();
 
-    $cartController = new Controller\ShoppingCartController();
-    $cartController->setModel(new \Model\ShoppingCart());
+    $cartController = new Controller\ShoppingCartController(
+        new \Model\ShoppingCart()
+    );
     $cartController->addArticle($shoppingCartId, $articleId);
 
     $controller = new Controller\ArticleController();

@@ -120,9 +120,10 @@ class SessionController
         if (array_key_exists(self::$shoppingCartKey, $_SESSION)) {
             return new \Model\QueryResult(null, null);
         }
-        $data = new \Model\ShoppingCart();
-        $shoppingCartController = new ShoppingCartController();
-        $shoppingCartController->setModel($data);
+
+        $shoppingCartController = new ShoppingCartController(
+            new \Model\ShoppingCart()
+        );
 
         $id = \Model\Domain\GUID::generate();
 

@@ -19,4 +19,11 @@
             </ul>
         </div>
     </div>
+    <?php if (sizeof($this->articles) > 0): ?>
+    <a href="/payment?step=<?=$this->paymentStep?>&token=<?=$this->token?>" type="button" class="mt-3 btn btn-outline-primary" >Buy</a>
+    <?else:?>
+    <div class="alert alert-light">
+        No items in your shopping cart. Go shopping...
+    </div>
+    <?endif;?>
 </div>

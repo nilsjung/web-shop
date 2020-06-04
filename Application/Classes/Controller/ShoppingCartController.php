@@ -13,6 +13,16 @@ use Model\QueryResult;
 class ShoppingCartController extends Controller
 {
     /**
+     * ShoppingCartController constructor.
+     *
+     * @param \Model\ShoppingCart $model
+     */
+    public function __construct(\Model\ShoppingCart $model)
+    {
+        parent::__construct($model);
+    }
+
+    /**
      * @param string $id
      * @return \Model\QueryResult
      */

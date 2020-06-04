@@ -50,6 +50,17 @@ class Template
         return ob_get_clean();
     }
 
+    public function renderPartial($filename)
+    {
+        ob_start();
+        if (file_exists($this->_scriptPath . $filename)) {
+            include $this->_scriptPath . $filename;
+        } else {
+            echo "Template not found";
+        }
+        return ob_get_clean();
+    }
+
     /**
      * @param $k
      * @param $v
