@@ -12,7 +12,7 @@ class Payment extends Model
     public function getPaymentForUserAndShoppingCart(
         string $userId,
         string $shoppingCartId
-    ) {
+    ): QueryResult {
         $userModel = new User();
         $shoppingCartModel = new ShoppingCart();
 

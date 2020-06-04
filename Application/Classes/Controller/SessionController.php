@@ -2,6 +2,8 @@
 
 namespace Controller;
 
+use Model\Domain\GUID;
+
 /**
  * Class SessionController
  *
@@ -21,6 +23,8 @@ class SessionController
     private static $shoppingCartKey = "shopping_cart_id";
 
     private static $csrfTokenKey = 'token';
+
+    private static $orderTokenKey = 'order_token';
 
     /**
      *
@@ -66,6 +70,20 @@ class SessionController
             return true;
         }
         return false;
+    }
+
+    public static function generateOrderToken(): string
+    {
+        $_SESSION[self::$orderTokenKey] = GUID::generate();
+        return $_SESSION[self::$orderTokenKey];
+    }
+
+    public static function getOrderToken(): ?string
+    {
+        if (!array_key_exists(self::$orderTokenKey, $_SESSION)) {
+            return null;
+        }
+        return $_SESSION[self::$orderTokenKey];
     }
 
     /**

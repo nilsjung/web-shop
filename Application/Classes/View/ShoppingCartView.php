@@ -20,6 +20,9 @@ class ShoppingCartView extends View
             ? 1
             : 0;
         $this->template->articles = $this->model->getResult()->getArticles();
+        $this->template->shoppingCartTotal = $this->model
+            ->getResult()
+            ->getSum();
         return $this->template->render("ShoppingCart.inc");
     }
 }

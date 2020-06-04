@@ -16,7 +16,7 @@ class ShoppingCart extends Model
     public function getById(string $id): QueryResult
     {
         $statement = "
-    select a.article_id, article_name, aic.count, stock, description, image_path
+    select a.article_id, article_name, aic.count, stock, price, description, image_path
     from ShoppingCart as sc, articles_in_cart as aic, Article as a
     where sc.shopping_cart_id = :id and sc.shopping_cart_id = aic.shopping_cart_id and a.article_id = aic.article_id;
     ";

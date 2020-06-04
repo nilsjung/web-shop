@@ -22,6 +22,7 @@ class Article extends Model
             article_name,
             IFNULL(aic.count, 0) as count,
             stock,
+            price,
             description,
             image_path
         from Article as a
@@ -80,6 +81,7 @@ class Article extends Model
             $result["article_name"],
             $result["description"],
             $result["stock"],
+            $result["price"],
             $result["image_path"]
         );
 

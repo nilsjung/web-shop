@@ -11,16 +11,6 @@ use Model\QueryResult;
  */
 class PaymentController extends Controller
 {
-    /**
-     * PaymentController constructor.
-     *
-     * @param \Model\Payment $model
-     */
-    public function __construct(\Model\Payment $model)
-    {
-        parent::__construct($model);
-    }
-
     public function getPayment(
         ?string $userId,
         ?string $shoppingCartId
@@ -29,9 +19,15 @@ class PaymentController extends Controller
             die("should not be null");
         }
 
-        return $this->model->getPaymentForUserAndShoppingCart(
+        $secret = SessionController::generateOrderToken();
+
+        $result = $this->model->getPaymentForUserAndShoppingCart(
             $userId,
             $shoppingCartId
         );
+
+        $result->getResult()->generatePaymentHash($secret);
+
+        return $result;
     }
 }

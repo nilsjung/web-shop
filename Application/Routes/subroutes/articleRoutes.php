@@ -7,8 +7,7 @@
  * Method GET
  */
 $router->get('/articles', function (): string {
-    $controller = new Controller\ArticleController();
-    $controller->setModel(new Model\Article());
+    $controller = new Controller\ArticleController(new Model\Article());
     $result = $controller->getAllArticles();
 
     $view = new View\ArticleView($result);
@@ -37,8 +36,7 @@ $router->get("/articles/add-to-cart", function (\Router\Request $request) {
     );
     $cartController->addArticle($shoppingCartId, $articleId);
 
-    $controller = new Controller\ArticleController();
-    $controller->setModel(new Model\Article());
+    $controller = new Controller\ArticleController(new Model\Article());
     $articles = $controller->getAllArticles();
 
     $view = new View\ArticleView($articles);

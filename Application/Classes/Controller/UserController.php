@@ -12,16 +12,6 @@ use Model\QueryResult;
 class UserController extends Controller
 {
     /**
-     * UserController constructor.
-     *
-     * @param User $model
-     */
-    public function __construct(\Model\User $model)
-    {
-        parent::__construct($model);
-    }
-
-    /**
      * @param String $id
      * @return QueryResult
      */

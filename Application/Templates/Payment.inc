@@ -8,10 +8,13 @@
                     </li>
                 <?else: ?>
                     <li class="nav-item">
-                        <a class="nav-link text-info <?=$this->paymentStep === 1 ? "active" : "" ?>" href="/payment?step=1&token=<?=$this->token?>">Personal Information</a>
+                        <a class="nav-link disabled text-info <?=$this->paymentStep === 1 ? "active" : "" ?>" href="/payment?step=1&token=<?=$this->token?>">Personal Information</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-info <?=$this->paymentStep === 2 ? "active" : "" ?>" href="/payment?step=2&token=<?=$this->token?>">Order Check and payment method</a>
+                        <a class="nav-link disabled text-info <?=$this->paymentStep === 2 ? "active" : "" ?>" href="/payment?step=2&token=<?=$this->token?>">Payment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled text-info <?=$this->paymentStep === 3 ? "active" : "" ?>" href="/payment?step=3&token=<?=$this->token?>">Verification</a>
                     </li>
                 <?endif;?>
             </ul>

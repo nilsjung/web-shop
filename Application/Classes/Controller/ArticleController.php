@@ -19,7 +19,7 @@ class ArticleController extends Controller
 
     /**
      * @param string $article_id
-     * @return \Model\Domain\Article
+     * @return \Model\QueryResult
      */
     public function getArticleById(string $article_id): \Model\QueryResult
     {

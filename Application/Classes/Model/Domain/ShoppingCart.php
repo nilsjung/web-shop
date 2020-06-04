@@ -61,4 +61,15 @@ class ShoppingCart extends Model
             array_splice($this->articles, $article_id, 1);
         }
     }
+
+    public function getSum(): float
+    {
+        $sum = 0.0;
+        $articles = $this->getArticles();
+        foreach ($articles as $article) {
+            $sum += $article->getPrice() * $article->getInCart();
+        }
+
+        return $sum;
+    }
 }

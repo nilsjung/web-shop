@@ -16,11 +16,11 @@ class PaymentConfirmationPartialView extends \View\View
      */
     public function render(): string
     {
+        $this->template->hash = $this->model->getResult()->getPaymentHash();
         $this->template->user = $this->model->getResult()->getUser();
-        $this->template->articles = $this->model
+        $this->template->shoppingCart = $this->model
             ->getResult()
-            ->getShoppingCart()
-            ->getArticles();
+            ->getShoppingCart();
         return $this->template->renderPartial(
             "Partials/Payment.Confirmation.inc"
         );

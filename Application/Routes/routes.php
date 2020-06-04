@@ -11,3 +11,4 @@ require_once "subroutes/articleRoutes.php";
 require_once "subroutes/shoppingCartRoutes.php";
 require_once "subroutes/userRoutes.php";
 require_once "subroutes/paymentRoutes.php";
+require_once "subroutes/orderRoutes.php";

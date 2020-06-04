@@ -10,20 +10,30 @@ class Article extends Model
     private string $name;
     private string $description;
     private string $imagePath;
+    private float $price;
 
     /**
      * Article constructor.
      * @param $id
      * @param $name
      * @param $description
+     * @param $stock
+     * @param $price
      * @param $imagePath
      */
-    public function __construct($id, $name, $description, $stock, $imagePath)
-    {
+    public function __construct(
+        $id,
+        $name,
+        $description,
+        $stock,
+        $price,
+        $imagePath
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->stock = $stock;
+        $this->price = $price;
         $this->imagePath = $imagePath;
         $this->in_cart = 0;
     }
@@ -106,6 +116,22 @@ class Article extends Model
     public function setStock($stock): void
     {
         $this->stock = $stock;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param float $price
+     */
+    public function setPrice(float $price): void
+    {
+        $this->price = $price;
     }
 
     /**

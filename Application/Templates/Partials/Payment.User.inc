@@ -15,7 +15,7 @@
             <label for="email-address">Email Address</label>
             <input type="text" name="email_address" class="form-control" id="email-address" value="<?= $this->user->getEmailAddress() ?>">
         </div>
-        <div class="col text-center">
+        <div class="col text-right">
             <button type="submit" class="btn btn-primary">Next</button>
         </div>
     </div>
