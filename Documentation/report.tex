@@ -2,21 +2,98 @@
 
 \usepackage{graphicx}
 \usepackage{microtype}
+\usepackage{tikz}
+\usepackage[footnote, nolist]{acronym}
+\usepackage{xspace}
+\newcommand{\php}{PHP\xspace}
+
+
+\def\checkmark{\tikz\fill[scale=0.3](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
 
 \begin{document}
-\title{Report \\ {Web Application and Security}}
-
-\author{Nils Jung (924577) \and Mohammad Rahman}
+\title{Project Report \\ {\large Web Application and Security}}
+\author{Nils Jung \and Mohammad Saifur Rahman \and Sakeena, Harris}
 \date{\today}
 \maketitle
 \newpage
 \tableofcontents
 \newpage
 
-\section{Overview}
-\cite{Alred03}
+\section{Task Assignment Matrix}
+In table \ref{tab:matrix} the overview of the given tasks can be found.
+We provide the task and marke the related person with a checkmark.
+As Mrs. Sekeena exited our group at an early stage, there are no tasks assigned to her. We also used the basic setup from Mr Jung, that he has already developed early in the semester. This is the reason he has assigned the basic setup issue.
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{p{0.3\textwidth}p{.1\textwidth}p{0.1\textwidth}p{0.1\textwidth}}
+            \textbf{Task} & \textbf{Jung} & \textbf{Rahman} & \textbf{Harris} \\\hline
+            basic setup & \checkmark & &  \\
+            secure login & \checkmark & & \\
+            password hash & \checkmark & & \\
+            session token & \checkmark & & \\
+            cart order hash validation & \checkmark & & \\
+        \end{tablular}
+    \end{center}
+    \caption{The issue assignment matrix}\label{tab:matrix}
+\end{table}
+
+\begin{acronym}
+    \acro{MVC}{Model-View-Controller}
+\end{acronym}
+
+\section{Introduction}
+This is the project report for the module \emph{MI130 -- Web Application Security}.
+The goal of this project is to build a secure shop by applying the learned mechanisms.
+To ensure the best learning effect, no frameworks or libraries are used for implementation.
+This has a widly impact, as for example \php provides a lot of freedoms by writing code.
+This can fastly lead to unclean code and make programming a mess.
+So the self made task for this project was also to ensure a structure, that makes the programming work easier and understand the concepts, frameworks like for example \emph{Symphony} use.
+
+Within this report we will give a rough overview of the structur and programming ideas, the used security mechanisms and the lessens we learned.
 \section{Project Structure}
-\section{Realisation}
+The {\php} concepts are quite confusing.
+Being able to render everything by backend is a great thing, but leads to one main problem:
+It is quite difficult to devide the logical from the presential part.
+
+To ensure a seperation the idea was to use the \ac{MVC} pattern.
+Therefor a mechanism for templating must be found.
+The fundamental ideas can be found in section \ref{sec:view}.
+
+The underlaying persistance is managed by the model.
+In our project the model is devided into two parts.
+There is for one thing the database handling, that is done by one class, and there is the internal representation of the objects.
+This is secondly done by another model type, the domain model.
+The ideas behind our model implementation can be found in section~\ref{sec:model}.
+
+The logical part is done by the controller.
+Starting with the implementation we found, that is was quite difficult to ensure a logical program flow.
+We already know the programming of endpoints by the languages \emph{Go} or \emph{Node.js}.
+So our idea was to force these mechanisms to our application as well.
+Basicaly the controller exists therewith as router, that takes the arguments and redirects the requests to our actual controller classes. To make this work there is a request class that also does some middleware stuff. All the ideas behind the controller and the routing can be found in section~\ref{sec:controller}.
+\subsection{View}\label{sec:view}
+There is a template class that handles the templates.
+Every view has its template to render.
+
+some douplicated code for example the shopping cart.
+Partial rendering desirable but not managed in this short time.
+
+\subsection{Model}\label{sec:model}
+The model holds the connection to the database.
+It handles with two representations.
+The first is the database representation.
+The second the internal representation.
+
+The models role is to take the database representation and map this to the internal domain representation.
+\subsection{Controller}\label{sec:controller}
+There are more or less two controllers wihtin this application.
+The routing idea can be blamed for this.
+
+The idea is to call the logical part of the application via endpoints, that are called by the view.
+
+
+\section{Security Mechanisms}
+
+
 \section{Lessens Learned}
 \newpage
 \bibliography{report}

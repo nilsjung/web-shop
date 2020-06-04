@@ -5,7 +5,8 @@ pdf:
 	latexmk -pdf -silent ${filename}.tex
 
 open:
-	zathura ${filename}.pdf
+	nohup zathura ${filename}.pdf &> /dev/null &
+
 clean:
 	latexmk -c
 
