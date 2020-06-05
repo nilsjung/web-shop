@@ -15,9 +15,6 @@ class Template
     public $hasValidationError = false;
     public $properties;
 
-    /**
-     * Template constructor.
-     */
     public function __construct()
     {
         $this->setScriptPath(
@@ -50,6 +47,10 @@ class Template
         return ob_get_clean();
     }
 
+    /**
+     * @param $filename
+     * @return false|string
+     */
     public function renderPartial($filename)
     {
         ob_start();
