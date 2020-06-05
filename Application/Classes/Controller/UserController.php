@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Model\Domain\User;
 use Model\QueryResult;
 
 /**
@@ -53,44 +54,29 @@ class UserController extends Controller
         $user->setLastName($lastName);
         $user->setEmailAddress($emailAddress);
         $user->setPaymentMethod($paymentMethod);
-        $user->setPassword($password);
+
+        $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
 
         return $this->model->updateUser($user);
     }
 
     /**
-     * @param string $enteredPassword
-     * @param \Model\Domain\User $user
-     * @return bool
+     * @param User $user
+     * @param string $password
+     * @return User
      */
-    public function validatePassword(
-        string $enteredPassword,
-        \Model\Domain\User $user
-    ): bool {
-        if (strcmp($user->getPassword(), $enteredPassword) === 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function refreshPasswordHash(
-        string $userId,
-        string $password,
-        string $storedHash
-    ): QueryResult {
-        $userResult = $this->getUserById($userId);
-
-        if (password_needs_rehash($storedHash, PASSWORD_DEFAULT)) {
+    private function refreshPasswordHashIfNeeded(
+        User $user,
+        string $password
+    ): User {
+        if (password_needs_rehash($user->getPassword(), PASSWORD_DEFAULT)) {
             $hash = password_hash($password, PASSWORD_DEFAULT);
-            $user = $userResult->getResult();
 
             $user->setPassword($hash);
-
             return $this->model->updateUser($user);
         }
 
-        return $userResult;
+        return $user;
     }
 
     /**
@@ -108,12 +94,8 @@ class UserController extends Controller
 
         $user = $userResult->getResult();
         if (password_verify($password, $user->getPassword())) {
-            $this->refreshPasswordHash(
-                $user->getId(),
-                $password,
-                $user->getPassword()
-            );
-            return $userResult;
+            $this->refreshPasswordHashIfNeeded($user, $password);
+            return new QueryResult([$user], null);
         } else {
             return new QueryResult(null, "Error during authentication");
         }

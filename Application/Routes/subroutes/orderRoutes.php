@@ -21,9 +21,10 @@ $router->get("/order", function (\Router\Request $request) {
 });
 
 $router->post("/order", function (\Router\Request $request) {
+    $request->checkToken();
+
     $controller = new \Controller\OrderController(new \Model\Order());
     $orderHash = $request->getParam("order_hash");
-    $token = $request->getParam("token");
 
     $userId = \Controller\SessionController::getAuthenticatedUserId();
     $total = $request->getParam("total");
@@ -34,10 +35,6 @@ $router->post("/order", function (\Router\Request $request) {
         ) !== $orderHash
     ) {
         return "the order is unvalid. Please try again";
-    }
-
-    if (!\Controller\SessionController::isCSRFTokenValid($token)) {
-        return "invalid token";
     }
 
     $result = $controller->createOrder(
