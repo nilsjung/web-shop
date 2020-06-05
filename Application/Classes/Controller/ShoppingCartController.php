@@ -23,7 +23,7 @@ class ShoppingCartController extends Controller
 
     /**
      * @param string $shoppingCartId
-     * @param $string
+     * @param string $articleId
      * @return \Model\QueryResult
      */
     public function addArticle(
@@ -34,15 +34,15 @@ class ShoppingCartController extends Controller
         $articleModel = new Article();
         $article = $articleModel->getArticleById($articleId)->getResult();
         $shoppingCart = $this->getById($shoppingCartId)->getResult();
-        $shoppingCart->addArticle($article);
 
         $articleStock = $article->getStock();
         $articles = $shoppingCart->getArticle($articleId);
 
-        if (!is_null($articles) && $articleStock === $articles->getInCart()) {
+        if (!is_null($articles) && $articles->getInCart() > $articleStock) {
             return new QueryResult(null, "Limit is reached");
         }
 
+        $shoppingCart->addArticle($article);
         return $this->model->addArticle($shoppingCartId, $articleId);
     }
 

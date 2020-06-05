@@ -46,6 +46,7 @@ class ShoppingCart extends Model
     public function addArticle(Article $article): ShoppingCart
     {
         $this->articles[$article->getId()] = $article;
+        $article->setInCart($article->getInCart() + 1);
         return $this;
     }
 

@@ -9,6 +9,25 @@ namespace Model;
  */
 class ShoppingCart extends Model
 {
+    private static function mapQueryResultToShoppingCartArticle(
+        $result
+    ): \Model\Domain\Article {
+        $article = new Domain\Article(
+            $result["article_id"],
+            $result["article_name"],
+            $result["description"],
+            $result["stock"],
+            $result["price"],
+            $result["image_path"]
+        );
+
+        if (array_key_exists("count", $result)) {
+            $article->setInCart($result["count"]);
+        }
+
+        return $article;
+    }
+
     /**
      * @param string $id
      * @return Domain\ShoppingCart|null
@@ -28,9 +47,9 @@ class ShoppingCart extends Model
 
             $shoppingCart = new Domain\ShoppingCart($id);
 
-            foreach ($result as $values) {
+            foreach ($result as $value) {
                 $shoppingCart->addArticle(
-                    Article::mapQueryResultToArticle($values)
+                    self::mapQueryResultToShoppingCartArticle($value)
                 );
             }
 
