@@ -177,11 +177,11 @@ class SessionController
      */
     private static function checkTimeOut()
     {
-        $expireAfterSeconds = 0.5 * 60;
+        $expireAfter = 10 * 60; // expire the session after 10 minutes
         if (isset($_SESSION[self::$lastActionKey])) {
-            $inactivityInSeconds = time() - $_SESSION[self::$lastActionKey];
+            $inactiveSince = time() - $_SESSION[self::$lastActionKey];
 
-            if ($inactivityInSeconds >= $expireAfterSeconds) {
+            if ($inactiveSince >= $expireAfter) {
                 echo "<div class='alert alert-info'>your session is expired</div>>";
                 self::destroySession();
             }
