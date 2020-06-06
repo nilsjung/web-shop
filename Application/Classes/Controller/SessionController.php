@@ -20,11 +20,16 @@ class SessionController
      */
     private static $authenticatedUserId = "user_id";
 
+    /**
+     * @var string
+     */
     private static $shoppingCartKey = "shopping_cart_id";
 
     private static $csrfTokenKey = 'token';
 
     private static $orderTokenKey = 'order_token';
+
+    private static $lastActionKey = 'last_action';
 
     /**
      *
@@ -37,6 +42,8 @@ class SessionController
             'cookie_secure' => 1,
             'cookie_httponly' => 1,
         ]);
+
+        self::checkTimeOut();
         self::setCSRFToken();
         self::createShoppingCart();
     }
@@ -131,7 +138,7 @@ class SessionController
     }
 
     /**
-     * @return \Model\Domain\ShoppingCart|null
+     * @return \Model\QueryResult
      */
     public static function createShoppingCart(): \Model\QueryResult
     {
@@ -156,11 +163,30 @@ class SessionController
 
     public static function destroySession()
     {
+        session_unset();
         session_destroy();
     }
 
     public static function getCSRFToken()
     {
         return $_SESSION[self::$csrfTokenKey];
+    }
+
+    /**
+     * Check the last activity of the user and reset the session if the user was inactive too long
+     */
+    private static function checkTimeOut()
+    {
+        $expireAfterSeconds = 0.5 * 60;
+        if (isset($_SESSION[self::$lastActionKey])) {
+            $inactivityInSeconds = time() - $_SESSION[self::$lastActionKey];
+
+            if ($inactivityInSeconds >= $expireAfterSeconds) {
+                echo "<div class='alert alert-info'>your session is expired</div>>";
+                self::destroySession();
+            }
+        }
+
+        $_SESSION[self::$lastActionKey] = time();
     }
 }

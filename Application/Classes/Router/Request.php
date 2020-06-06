@@ -67,7 +67,7 @@ class Request implements RequestInterface
                 $this->params[$key] = filter_input(
                     INPUT_GET,
                     $key,
-                    FILTER_SANITIZE_SPECIAL_CHARS
+                    FILTER_SANITIZE_FULL_SPECIAL_CHARS
                 );
             }
         }
@@ -77,7 +77,7 @@ class Request implements RequestInterface
                 $this->params[$key] = filter_input(
                     INPUT_POST,
                     $key,
-                    FILTER_SANITIZE_SPECIAL_CHARS
+                    FILTER_SANITIZE_FULL_SPECIAL_CHARS
                 );
             }
         }
